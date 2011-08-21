@@ -1,0 +1,405 @@
+2011-08-21 14:33:39 kfirufk@gmail.com
+	* 0.6 beta as moved to the official version
+        * added fix in issue 11 (thanks to RAndri...@gmail.com)
+        * added try catch to the pdo string generator to show proper error instead of seeing an exception
+          being thrown
+        + please note. project was moved from SVN to GIT.
+
+2011-03-24 14:41 hadfieldster@gmail.com
+
+        * version 0.6 beta
+           - Large rework of system. Note that this is not completely backwards compatible.
+           - Work with MS-SQL (2000+ at least)
+           - composite key support (multiple columns to define a primary key)
+           - Lazy loading of related tables as defined by foreign keys
+           - Recursive saving of dependent tables
+           - Saving primary keys that are not auto-incremented
+           - Include custom source code into the generated models (so that the models can be generated safely)
+           - Optional logging of exceptions with Zend_Log support
+           - Saving inside database transactions
+           - Output conforms with Zend Framework formatting style
+           - Consolidated common functionality into Abstract classes 
+           - Database comments included into generated model
+           - Optional handling of datetimes with Zend_Date
+		   - TODO: 
+				-Regenerate models for example
+				-Cleanup code
+				-Improve PHPdoc
+				-PHPUnit?
+				-More testing on different platforms
+				-Improve documentation/update existing
+				-Implement dirty checking?
+
+2009-12-12 00:56 kfirufk@gmail.com
+
+        * version 0.5 RC1
+           - fixed fetchListToArray()
+           - paginator support.
+                   new functions:  select2Paginator,fetchAll2Paginator,
+                                                fetchListToPaginator
+           - started working on reference map for innodb tables, needs
+	   testing. the referencemap variable is appended to the appropriate
+	   class.
+	   - new testzdmg directory: a working project to demostrate 
+	     the usage of the classes that are created by this script.
+	     currently has 2 examples, need to add alot more in the future.
+	   
+
+2009-11-30 00:56 kfirufk@gmail.com
+        * version 0.4a
+	  * updated readme regarding the new model and dbtable 
+	    parent classes
+
+        * version 0.4 is complete!
+	  new command line parameters for the script 
+	     * support for listing and unlisting tables by their names
+	       or by regular expressions.
+	     * common functions from model class where seperated to 
+	       a parent class MainModel
+	     * common functions from dbtable class where seperated to
+	       a parent class MainDbTable
+	     * support to list all tables in a database
+	     * support for modifying a row without loading it first
+	       (big thanks to Aleksandar Scepanovic): 
+	        <?php
+		   $foo = new Default_Model_Foo();
+                   $foo->setId(5);
+		   $foo->setUsername('test');
+		   $foo->save();
+		// this example updates username field to test in row 5
+		?>
+             * support for specifying a location to store the created
+	       class files
+             * updated readme.txt
+
+2009-11-11 02:23 kfirufk@gmail.com
+
+	* templates/model.tpl: findOneBy<Field> returns the created class
+
+2009-10-21 21:49  kfirufk@gmail.com
+
+	* templates/model.tpl: fixed bug in _get
+
+2009-10-20 14:19  kfirufk@gmail.com
+
+	* templates/model.tpl: columnName2var and varName2Column are now
+	  public so the user can use these functions as well
+
+2009-10-19 14:40  kfirufk
+
+	* zend-db-model-generator.php: changed version to 0.3.3.1
+
+2009-10-19 14:38  kfirufk
+
+	* templates/model.tpl: added varName2Column function and with it
+	  fixed findBy<field> and findOneBy<field> functions to work with
+	  fields like foo_bar or FooBar
+
+2009-10-19 12:43  kfirufk
+
+	* ChangeLog: fixed changelog. i needed to execute svn2cl with -a
+	  parameter. version 0.3.3 is ready
+
+2009-10-19 12:39  kfirufk
+
+	* data, readme.txt, templates/dbtable.tpl, templates/model.tpl,
+	  zend-db-model-generator.php: added the functions:
+	  getPrimaryKeyName,countAllRows,countByQuery.
+	  now the model class contains an array that holds the column names
+	  and their corresponding setters/getters function name.
+
+2009-10-11 19:54  kfirufk
+
+	* ChangeLog, doc/classtrees_default.html,
+	  doc/default/MakeDbTable.html,
+	  doc/default/_data---MakeDbTable.php.html,
+	  doc/default/_data---config.php.html,
+	  doc/default/_zend-db-model-generator.php.html, doc/errors.html,
+	  doc/index.html: updated doc directory, version 0.3.1 is ready
+
+2009-10-11 19:51  kfirufk@gmail.com
+
+	* readme.txt, templates/mapper.tpl, templates/model.tpl,
+	  zend-db-model-generator.php: updated readme.txt with new examples
+	  fixed save function
+	  findBy<value>(field) now returns an array of instances of the
+	  model class
+	  findOneBy<value>(field) fetchs one row,sets the current class
+	  with the data it fetched (field=value)
+	  toArray() function: returns an array of (column names=>fields)
+
+2009-10-10 14:25  kfirufk
+
+	* doc[ADD], doc/blank.html[ADD], doc/classtrees_default.html[ADD],
+	  doc/default[ADD], doc/default/MakeDbTable.html[ADD],
+	  doc/default/_data---MakeDbTable.php.html[ADD],
+	  doc/default/_data---config.php.html[ADD],
+	  doc/default/_zend-db-model-generator.php.html[ADD],
+	  doc/elementindex.html[ADD], doc/elementindex_default.html[ADD],
+	  doc/errors.html[ADD], doc/index.html[ADD],
+	  doc/li_default.html[ADD], doc/media[ADD],
+	  doc/media/banner.css[ADD], doc/media/stylesheet.css[ADD],
+	  doc/packages.html[ADD]: new doc directory, now version is ready
+
+2009-10-10 14:24  kfirufk
+
+	* doc[DEL]: removed doc directory
+
+2009-10-10 14:22  kfirufk
+
+	* ChangeLog, readme.txt: updated readme.txt and Changelog, version
+	  0.3 is ready
+
+2009-10-10 14:20  kfirufk@gmail.com
+
+	* TODO, data/config.php-default, templates/mapper.tpl,
+	  templates/model.tpl, zend-db-model-generator.php: moved defines
+	  to main php file instead of config file
+	  added more phpdocs
+
+2009-10-09 11:52  kfirufk@gmail.com
+
+	* data/MakeDbTable.php, templates/dbtable.tpl,
+	  templates/mapper.tpl, templates/model.tpl: added phpdocs to
+	  variables,
+	  new function to convert mysql data types to php
+	  fixed php docs
+	  code cleanup
+
+2009-10-06 13:09  kfirufk
+
+	* zend-db-model-generator.php: removed the include of
+	  Zend/Config/Ini.php
+
+2009-10-06 11:22  kfirufk
+
+	* data/MakeDbTable.php, doc[ADD], doc/blank.html[ADD],
+	  doc/classtrees_default.html[ADD], doc/default[ADD],
+	  doc/default/MakeDbTable.html[ADD],
+	  doc/default/_data---MakeDbTable.php.html[ADD],
+	  doc/default/_zend-db-model-generator.php.html[ADD],
+	  doc/elementindex.html[ADD], doc/elementindex_default.html[ADD],
+	  doc/errors.html[ADD], doc/index.html[ADD],
+	  doc/li_default.html[ADD], doc/media[ADD],
+	  doc/media/banner.css[ADD], doc/media/stylesheet.css[ADD],
+	  doc/packages.html[ADD]: removed Zend_Config_Ini from include.
+	  regenreated doc directory. now closing v0.2.3.
+
+2009-10-06 11:19  kfirufk
+
+	* data/MakeDbTable.php, data/config.php-default, doc[DEL],
+	  templates/dbtable.tpl, templates/mapper.tpl, templates/model.tpl:
+	  version 0.2.3:
+	  templates follow ZF coding standards
+	  basic doc generation support
+	  A big thanks to Aleksandar Scepanovic for his comments and
+	  patches.
+
+2009-10-05 19:03  kfirufk
+
+	* doc/classtrees_default.html, doc/errors.html, doc/index.html:
+	  updated doc directory
+
+2009-10-05 19:00  kfirufk
+
+	* readme.txt: updated readme. single quotes and delete functions
+	  where created by the help of Alek's comments.
+
+2009-10-05 18:56  kfirufk@gmail.com
+
+	* templates/model.tpl: fixed bugs related to delete and
+	  deleteRowById(). added validation check on
+	  deleteRowByPrimaryKey()
+
+2009-10-05 18:44  kfirufk@gmail.com
+
+	* ChangeLog, readme.txt, templates/dbtable.tpl,
+	  templates/mapper.tpl, templates/model.tpl: changed double quotes
+	  to single quotes when possible.
+	  added delete() and deleteRowByPrimaryKey() function
+
+2009-10-05 17:05  kfirufk@gmail.com
+
+	* data/MakeDbTable.php: fixed host in pdo connection
+
+2009-10-04 13:13  kfirufk
+
+	* data/config.php-default, readme.txt, templates/mapper.tpl,
+	  templates/model.tpl: added fetchListToArray(), updated readme.
+
+2009-10-03 22:34  kfirufk
+
+	* ChangeLog: updated changelog
+
+2009-10-03 22:31  kfirufk
+
+	* TODO, data[ADD], data/MakeDbTable.php[ADD],
+	  data/config.php-default[ADD], doc[ADD], doc/blank.html[ADD],
+	  doc/classtrees_default.html[ADD], doc/default[ADD],
+	  doc/default/MakeDbTable.html[ADD],
+	  doc/default/_data---MakeDbTable.php.html[ADD],
+	  doc/default/_data---config.php.html[ADD],
+	  doc/default/_zend-db-model-generator.php.html[ADD],
+	  doc/elementindex.html[ADD], doc/elementindex_default.html[ADD],
+	  doc/errors.html[ADD], doc/index.html[ADD],
+	  doc/li_default.html[ADD], doc/media[ADD],
+	  doc/media/banner.css[ADD], doc/media/stylesheet.css[ADD],
+	  doc/packages.html[ADD], readme.txt, templates[ADD],
+	  templates/dbtable.tpl[ADD], templates/mapper.tpl[ADD],
+	  templates/model.tpl[ADD], zend-db-model-generator.php: zdmg v0.2:
+	  rewrote most of the code.
+	  added phpdoc to the main class file.
+	  seperated the script to several files, now the code is cleaner
+	  and easier to understand.
+	  added function fetchAllToArray()
+	  added config.php for configuration directives
+	  added doc directory, api documents created by phpdoc
+	  updated readme.txt with more information and examples
+
+2009-09-30 09:08  kfirufk
+
+	* readme.txt: updated readme
+
+2009-09-30 09:06  kfirufk
+
+	* readme.txt, zend-db-model-generator.php: defaulted add_required
+	  to false again.
+	  fixed typo in readme, thanks to Richard Hamilton
+
+2009-09-29 10:01  kfirufk
+
+	* ChangeLog: updated changelog
+
+2009-09-29 10:00  kfirufk
+
+	* zend-db-model-generator.php: added naming conversions to __set as
+	  well, version 0.1.5.1
+
+2009-09-29 09:46  kfirufk
+
+	* zend-db-model-generator.php: fixed a bug in __get() function:
+	  name conversions
+
+2009-09-27 13:28  kfirufk@gmail.com
+
+	* zend-db-model-generator.php: version 0.1.5
+
+2009-09-27 13:27  kfirufk@gmail.com
+
+	* ChangeLog, zend-db-model-generator.php: patched __get function in
+	  model class: column names are now properly converted to getters
+	  of function name
+
+2009-09-22 13:45  kfirufk@gmail.com
+
+	* ChangeLog, zend-db-model-generator.php: version 0.1.4
+
+2009-09-22 13:42  kfirufk@gmail.com
+
+	* ., readme.txt, zend-db-model-generator.php: updated readme.
+	  added require to Zend_Db_Table_Abstract if _addRequire flag is
+	  ommited enabled.
+	  some code cleanups
+	  fixed duplicated of primary key in some of the functions (thanks
+	  to AJIT DIXIT)
+
+2009-09-20 16:58  kfirufk@gmail.com
+
+	* ., zend-db-model-generator.php: also updated readme file on last
+	  commit. removing die() that i used for debugging in order for the
+	  script to work again.
+
+2009-09-20 16:54  kfirufk@gmail.com
+
+	* TODO, readme.txt, zend-db-model-generator.php: changed split()
+	  function to explode() (split deprecated from php 5.3.0)
+	  query('SET NAMES UTF8') instead of using the constant
+	  PDO::MYSQL_ATTR_INIT_COMMAND. the constant seems to be missing in
+	  some php versions.
+	  added fetchList() function (thanks to AJIT DIXIT).
+
+2009-09-05 19:28  kfirufk
+
+	* ChangeLog: version 0.1.3a
+
+2009-09-05 19:27  kfirufk
+
+	* zend-db-model-generator.php: fixed a bug where a default
+	  namespace would be empty instead of 'Default' when the user does
+	  not supply the optional namespace parameter.
+
+2009-08-25 07:11  kfirufk
+
+	* zend-db-model-generator.php: updated to version 0.1.3
+
+2009-08-25 07:11  kfirufk
+
+	* readme.txt, zend-db-model-generator.php: added a 3rd parameter
+	  for namespace.
+	  patched setOptions function for a proper conversion column names
+	  to methods. Patches by Charles Spraggs. (thanks)
+
+2009-08-23 02:58  kfirufk
+
+	* ChangeLog: updated changelog
+
+2009-08-23 02:48  kfirufk
+
+	* ChangeLog, zend-db-model-generator.php: started using svn2cl to
+	  create Changelog file.
+	  whenever the user execute the save() function to insert a new row
+	  (not to update), the last inserted id is saved in the appropriate
+	  protected variable in the model class.
+
+2009-08-22 22:56  kfirufk
+
+	* ChangeLog[ADD]: add changelog file
+
+2009-08-22 22:53  kfirufk
+
+	* zend-db-model-generator.php: changed version to 0.1.2
+
+2009-08-22 22:46  kfirufk
+
+	* zend-db-model-generator.php: 1) Fixed a bug where the primary key
+	  was being generated twice in the
+	  Default_{table}_Model class.
+	  2) Add magic method support to do ->findBy<value>(<value>);
+	  fix by Charles Spraggs
+
+2009-08-22 17:46  kfirufk
+
+	* zend-db-model-generator.php: fixed error message on invalid
+	  property
+
+2009-08-20 14:41  kfirufk
+
+	* zend-db-model-generator.php: add get/set functions to primary
+	  keys
+
+2009-07-25 17:03  kfirufk
+
+	* zend-db-model-generator.php: replaced '/' with
+	  DIRECTORY_SEPARATOR
+
+2009-07-25 16:39  kfirufk
+
+	* zend-db-model-generator.php: fixed find() decleration in the
+	  mapper template
+
+2009-07-22 11:56  kfirufk
+
+	* TODO[ADD]: added TODO file.
+
+2009-07-07 08:53  kfirufk
+
+	* zend-db-model-generator.php: Mapper template fix
+
+2009-07-02 11:45  kfirufk
+
+	* readme.txt[ADD], zend-db-model-generator.php[ADD]: version 0.1
+
+2009-07-02 11:39  
+
+	* .[ADD]: Initial directory structure.
+

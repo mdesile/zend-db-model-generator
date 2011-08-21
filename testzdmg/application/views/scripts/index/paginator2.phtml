@@ -1,0 +1,18 @@
+<html>
+<body>
+<h1>Paginator Demo 2</h1>
+<?php if (count($this->paginator)): ?>
+<ul>
+<?php foreach ($this->paginator as $item): ?>
+  <li><?php echo $item['name'] ?></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<?php echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'index/my_pagination_control.phtml'); ?>
+<hr/>
+<a href="<?=$this->url(array('action'=>'index')); ?>">index page</a>
+</body>
+</html>

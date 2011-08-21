@@ -1,0 +1,10 @@
+testzdmg
+--=--=--
+
+in order to run the application you need to setup the following:
+
+1. have Zend Framework library included in your php include path
+2. run the create_testzdmg_db.sql sql file inside scripts directory.
+   it will create testzdmg database and the relevant tables.
+3. point your browser to the public directory and allow override of .htaccess
+   file in order for the proper rewrite rules to be executed.

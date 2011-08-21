@@ -1,0 +1,14 @@
+TODO List
+---------
+
+			    - being able to modify exisiting classes that where already 
+   				created by this script in cases of db structure changes.
+				- support postgresql
+                            -Regenerate models for example
+                                -Cleanup code
+                                -Improve PHPdoc
+                                -PHPUnit?
+                                -More testing on different platforms
+                                -Improve documentation/update existing
+                                -Implement dirty checking?
+

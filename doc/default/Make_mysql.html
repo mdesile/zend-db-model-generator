@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Make_mysql</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Make_mysql</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">MySQL specific class for model creation</p>
+		<p class="notes">
+			Located in <a class="field" href="_Make.mysql.php.html">/Make.mysql.php</a> (line <span class="field"><a href="../__filesource/fsource_default__Make.mysql.php.html#a6">6</a></span>)
+		</p>
+		
+				
+		<pre><a href="../default/MakeDbTable.html">MakeDbTable</a>
+   |
+   --Make_mysql</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																				
+												<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getPDOString" title="details" class="method-name">getPDOString</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$host</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$port</span> = <span class="var-default">3306</span>], <span class="var-type"></span>&nbsp;<span class="var-name">$dbname</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getTablesNamesFromDb" title="details" class="method-name">getTablesNamesFromDb</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseDependentTables" title="details" class="method-name">parseDependentTables</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseDescribeTable" title="details" class="method-name">parseDescribeTable</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseForeignKeys" title="details" class="method-name">parseForeignKeys</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#_convertTypeToPhp" title="details" class="method-name">_convertTypeToPhp</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$str</span>)
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+										<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../default/MakeDbTable.html">MakeDbTable</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_addRequire">MakeDbTable::$_addRequire</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_author">MakeDbTable::$_author</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_cacheManagerName">MakeDbTable::$_cacheManagerName</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_cacheName">MakeDbTable::$_cacheName</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_classDesc">MakeDbTable::$_classDesc</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_className">MakeDbTable::$_className</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_columns">MakeDbTable::$_columns</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_columnSuffixes">MakeDbTable::$_columnSuffixes</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_config">MakeDbTable::$_config</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_copyright">MakeDbTable::$_copyright</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_dbname">MakeDbTable::$_dbname</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_dependentTables">MakeDbTable::$_dependentTables</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_foreignKeysInfo">MakeDbTable::$_foreignKeysInfo</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_includeMapper">MakeDbTable::$_includeMapper</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_includeModel">MakeDbTable::$_includeModel</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_includePath">MakeDbTable::$_includePath</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_includeTable">MakeDbTable::$_includeTable</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_license">MakeDbTable::$_license</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_location">MakeDbTable::$_location</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_loggerName">MakeDbTable::$_loggerName</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_namespace">MakeDbTable::$_namespace</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_pdo">MakeDbTable::$_pdo</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_primaryKey">MakeDbTable::$_primaryKey</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_softDeleteColumn">MakeDbTable::$_softDeleteColumn</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_softDeleteColumnNames">MakeDbTable::$_softDeleteColumnNames</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_tableList">MakeDbTable::$_tableList</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_tablePrefixes">MakeDbTable::$_tablePrefixes</a></span><br>
+							</span>
+													<span class="var-title">
+								<span class="var-name"><a href="../default/MakeDbTable.html#var$_tbname">MakeDbTable::$_tbname</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-vars">Vars</a>
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodgetPDOString" id="getPDOString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPDOString</span> (line <span class="line-number"><a href="../__filesource/fsource_default__Make.mysql.php.html#a8">8</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getPDOString
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$host</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$port</span> = <span class="var-default">3306</span>], <span class="var-type"></span>&nbsp;<span class="var-name">$dbname</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$host</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$port</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$dbname</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../default/MakeDbTable.html#methodgetPDOString">MakeDbTable::getPDOString()</a></dt>
+					</dl>
+			
+	</div>
+<a name="methodgetTablesNamesFromDb" id="getTablesNamesFromDb"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getTablesNamesFromDb</span> (line <span class="line-number"><a href="../__filesource/fsource_default__Make.mysql.php.html#a12">12</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getTablesNamesFromDb
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../default/MakeDbTable.html#methodgetTablesNamesFromDb">MakeDbTable::getTablesNamesFromDb()</a></dt>
+					</dl>
+			
+	</div>
+<a name="methodparseDependentTables" id="parseDependentTables"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseDependentTables</span> (line <span class="line-number"><a href="../__filesource/fsource_default__Make.mysql.php.html#a102">102</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseDependentTables
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../default/MakeDbTable.html#methodparseDependentTables">MakeDbTable::parseDependentTables()</a></dt>
+					</dl>
+			
+	</div>
+<a name="methodparseDescribeTable" id="parseDescribeTable"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseDescribeTable</span> (line <span class="line-number"><a href="../__filesource/fsource_default__Make.mysql.php.html#a159">159</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseDescribeTable
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../default/MakeDbTable.html#methodparseDescribeTable">MakeDbTable::parseDescribeTable()</a></dt>
+					</dl>
+			
+	</div>
+<a name="methodparseForeignKeys" id="parseForeignKeys"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseForeignKeys</span> (line <span class="line-number"><a href="../__filesource/fsource_default__Make.mysql.php.html#a43">43</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseForeignKeys
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../default/MakeDbTable.html#methodparseForeignKeys">MakeDbTable::parseForeignKeys()</a></dt>
+					</dl>
+			
+	</div>
+<a name="method_convertTypeToPhp" id="_convertTypeToPhp"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_convertTypeToPhp</span> (line <span class="line-number"><a href="../__filesource/fsource_default__Make.mysql.php.html#a29">29</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">converts MySQL data types to PHP data types</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			_convertTypeToPhp
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$str</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$str</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../default/MakeDbTable.html#method_convertTypeToPhp">MakeDbTable::_convertTypeToPhp()</a></dt>
+						<dd>converts database specific data types to PHP data types</dd>
+					</dl>
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../default/MakeDbTable.html">MakeDbTable</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../default/MakeDbTable.html#method__construct">MakeDbTable::__construct()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodcopyIncludeFiles">MakeDbTable::copyIncludeFiles()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methoddoItAll">MakeDbTable::doItAll()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetDependentTables">MakeDbTable::getDependentTables()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetForeignKeysInfo">MakeDbTable::getForeignKeysInfo()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetIncludePath">MakeDbTable::getIncludePath()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetLocation">MakeDbTable::getLocation()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetParsedTplContents">MakeDbTable::getParsedTplContents()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetPDOString">MakeDbTable::getPDOString()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetTableList">MakeDbTable::getTableList()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetTableName">MakeDbTable::getTableName()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodgetTablesNamesFromDb">MakeDbTable::getTablesNamesFromDb()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodmakeDbTableFile">MakeDbTable::makeDbTableFile()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodmakeMapperFile">MakeDbTable::makeMapperFile()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodmakeModelFile">MakeDbTable::makeModelFile()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodparseDependentTables">MakeDbTable::parseDependentTables()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodparseDescribeTable">MakeDbTable::parseDescribeTable()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodparseForeignKeys">MakeDbTable::parseForeignKeys()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodparseTable">MakeDbTable::parseTable()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodsetDependentTables">MakeDbTable::setDependentTables()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodsetForeignKeysInfo">MakeDbTable::setForeignKeysInfo()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodsetIncludePath">MakeDbTable::setIncludePath()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodsetLocation">MakeDbTable::setLocation()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodsetTableList">MakeDbTable::setTableList()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#methodsetTableName">MakeDbTable::setTableName()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#method_convertTypeToPhp">MakeDbTable::_convertTypeToPhp()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#method_getCapital">MakeDbTable::_getCapital()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#method_getClassName">MakeDbTable::_getClassName()</a></span><br>
+													<span class="method-name"><a href="../default/MakeDbTable.html#method_getRelationName">MakeDbTable::_getRelationName()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Thu, 24 Mar 2011 14:33:51 -0500 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
