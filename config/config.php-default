@@ -17,6 +17,9 @@ $config=array(
     # database host
     'db.host' => '127.0.0.1',
 
+    # database unix socket (currently usful for mysql unix socket. leave empty if you want to use host)
+    'db.socket' => '',
+
     # database port
     'db.port' => '3306',
 

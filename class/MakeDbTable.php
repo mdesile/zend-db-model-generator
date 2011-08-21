@@ -372,7 +372,9 @@ abstract class MakeDbTable {
 	abstract public function parseDescribeTable();
 
     abstract protected function getPDOString($host, $port, $dbname);
-
+    
+    abstract protected function getPDOSocketString($socket, $dbname);
+    
 	/**
 	 *
 	 *  the class constructor
@@ -389,9 +391,15 @@ abstract class MakeDbTable {
 
 		$this->_config=$config;
 		$this->_addRequire=$config['include.addrequire'];
-		
+		$pdoString = "";
+	    if ($this->_config['db.socket']) {
+	     	$pdoString=$this->getPDOSocketString($this->_config['db.socket'],$dbname);
+	     	
+	    } else {
+	    	$pdoString=$this->getPDOString($this->_config['db.host'], $this->_config['db.port'], $dbname);	    	
+	    }
 		try {
-		 $pdo = new PDO($this->getPDOString($this->_config['db.host'], $this->_config['db.port'], $dbname),
+		 $pdo = new PDO($pdoString,
 		    $this->_config['db.user'],
 		    $this->_config['db.password']
 		 );
