@@ -1,9 +1,13 @@
 2011-08-21 14:33:39 kfirufk@gmail.com
-	* 0.6 beta as moved to the official version
-        * added fix in issue 11 (thanks to RAndri...@gmail.com)
-        * added try catch to the pdo string generator to show proper error instead of seeing an exception
+       * version 0.6
+	- 0.6 beta as moved to the official version
+        - added fix in issue 11 (thanks to RAndri...@gmail.com)
+        - added try catch to the pdo string generator to show proper error instead of seeing an exception
           being thrown
+	- fixed issue 8: added unix socket support for mysql server
+    - checked issue 7 and it seems that the 0.6 beta patch fixed the issue (support for composite primary key).   
         + please note. project was moved from SVN to GIT.
+        
 
 2011-03-24 14:41 hadfieldster@gmail.com
 
