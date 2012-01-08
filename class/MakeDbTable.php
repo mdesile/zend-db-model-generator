@@ -424,7 +424,7 @@ abstract class MakeDbTable {
 		$path = $this->_config['include.path'];
 		if ( ! is_dir($path)) {
 		    // Use path relative to root of the application
-		    $path = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $this->_config['include.path'];
+		    $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $this->_config['include.path'];
 		}
 
 		$this->setIncludePath($path . DIRECTORY_SEPARATOR);
@@ -432,7 +432,7 @@ abstract class MakeDbTable {
 		if (file_exists($this->getIncludePath() . 'IncludeDefault.php')) {
 		    require_once $this->getIncludePath() . 'IncludeDefault.php';
 		} else {
-		    require_once __DIR__.DIRECTORY_SEPARATOR.'IncludeDefault.php';
+		    require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'IncludeDefault.php';
 		}
 	}
 
@@ -446,7 +446,7 @@ abstract class MakeDbTable {
 	public function getParsedTplContents($tplFile, $vars = array()) {
 		extract($vars);
 		ob_start();
-		require(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$tplFile);
+		require(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$tplFile);
 		$data=ob_get_contents();
 		ob_end_clean();
 		return $data;

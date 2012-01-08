@@ -21,7 +21,7 @@ if (!ini_get('register_argc_argv')) {
 
 $db_type = $config['db.type'];
 $class = 'Make_' . $db_type;
-$include = @include_once (__DIR__.DIRECTORY_SEPARATOR.'class'.DIRECTORY_SEPARATOR.'Make.'. $db_type . '.php');
+$include = @include_once (dirname(__FILE__).DIRECTORY_SEPARATOR.'class'.DIRECTORY_SEPARATOR.'Make.'. $db_type . '.php');
 if (! $include || ! class_exists($class)) {
     die ("Database type specified is not supported\n");
 }
@@ -53,15 +53,15 @@ $path='';
 if (sizeof($params['--location']) == 1) {
     // Check if a relative path
     if (! realpath($params['--location'][0])) {
-        $path = realpath(__DIR__.DIRECTORY_SEPARATOR.$params['--location'][0]);
+        $path = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.$params['--location'][0]);
     } else {
         $path = realpath($params['--location'][0]);
     }
     $cls->setLocation($path);
     $path .= DIRECTORY_SEPARATOR;
 } else {
-    $cls->setLocation(__DIR__.DIRECTORY_SEPARATOR.$params['--database'][0]);
-    $path=__DIR__.DIRECTORY_SEPARATOR.$params['--database'][0].DIRECTORY_SEPARATOR;
+    $cls->setLocation(dirname(__FILE__).DIRECTORY_SEPARATOR.$params['--database'][0]);
+    $path=dirname(__FILE__).DIRECTORY_SEPARATOR.$params['--database'][0].DIRECTORY_SEPARATOR;
 }
 
 foreach (array('DbTable', 'mappers') as $name) {
