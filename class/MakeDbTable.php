@@ -58,6 +58,12 @@ abstract class MakeDbTable {
 	 */
 	protected $_addRequire;
 
+
+	/**
+	 *   @var Boolean $_returnId;
+	 */
+	protected $_returnId;
+
 	/**
 	 *   @var String $_author;
 	 */
@@ -390,7 +396,8 @@ abstract class MakeDbTable {
 
 
 		$this->_config=$config;
-		$this->_addRequire=$config['include.addrequire'];
+		$this->_addRequire = $config['include.addrequire'];
+		$this->_returnId = $config['save.return_id'];
 		$pdoString = "";
 	    if ($this->_config['db.socket']) {
 	     	$pdoString=$this->getPDOSocketString($this->_config['db.socket'],$dbname);
@@ -422,6 +429,8 @@ abstract class MakeDbTable {
 		$this->_loggerName = $this->_config['log.logger_name'];
 
 		$path = $this->_config['include.path'];
+
+
 		if ( ! is_dir($path)) {
 		    // Use path relative to root of the application
 		    $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $this->_config['include.path'];
