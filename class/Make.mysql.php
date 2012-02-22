@@ -40,7 +40,7 @@ class Make_mysql extends MakeDbTable {
 			$res = 'float';
 		} elseif (preg_match('#^(?:tiny|small|medium|long|big|var)?(\w+)(?:\(\d+\))?(?:\s\w+)*$#',$str,$matches)) {
 			$res = $matches[1];
-		} elseif {
+		} else {
 			print "Can't convert column type to PHP - Unrecognized type: $str";
 		}
 

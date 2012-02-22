@@ -429,7 +429,7 @@ abstract class MakeDbTable {
 		$this->_loggerName = $this->_config['log.logger_name'];
 
 		$path = $this->_config['include.path'];
-
+		
 
 		if ( ! is_dir($path)) {
 		    // Use path relative to root of the application
@@ -615,8 +615,6 @@ abstract class MakeDbTable {
 		// Copy all files in include paths
 		if (is_dir($this->getIncludePath() . 'model')) {
 			$this->copyIncludeFiles($this->getIncludePath() . 'model', $this->getLocation());
-		} else {
-		    echo $this->getIncludePath() . 'model';
 		}
 
 		if (is_dir($this->getIncludePath() . 'mapper')) {

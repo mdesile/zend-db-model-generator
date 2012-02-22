@@ -242,9 +242,9 @@ foreach ($this->_columns as $column):
                 $primary_key = $this->getDbTable()->insert($data);
                 if ($primary_key) {
                     $model->set<?=$this->_primaryKey['capital']?>($primary_key);
-                    <?php if($this->_returnId): ?>
+<?php if($this->_returnId): ?>
                     $success = $primary_key;
-                    <?php endif; ?>
+<?php endif; ?>
                 } else {
                     $success = false;
                 }
