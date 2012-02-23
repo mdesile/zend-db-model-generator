@@ -216,7 +216,7 @@ abstract class <?=$this->_namespace?>_Model_ModelAbstract
 
             return $result;
         } elseif (preg_match('/^fetchList/', $method, $matches)) {
-			return $this->getMapper()->$matches[0]($args);
+			return $this->getMapper()->$matches[0]($args[0]);
 		}
 
 <?php if (! empty($this->_loggerName)):?>
