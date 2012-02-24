@@ -82,39 +82,28 @@ abstract class <?=$this->_namespace?>_Model_DbTable_TableAbstract extends Zend_D
     public function countByQuery($where = '')
     {
         $query = $this->select()->from($this->_name, 'count(*) AS all_count');
-        
+
 		if (! empty($where) && is_string($where))
         {
             $query->where($where);
         }
         elseif(is_array($where) && isset($where[0]))
         {
-            /**
-             * Checks if you're passing an PDO escape statement
-             * ->where('price > ?', $price)
-             */
-             
-            if(isset($where[1]) && is_string($where[0]) && count($where) == 2)
-            {
-                $query->where($where[0], $where[1]);
-            }
-            elseif(is_array($where[0]))
-            {
-                /**
-                 * Adds a where/and statement for each of the inner arrays, and checks if it is a PDO escape statement or a string
-                 */
-                foreach($where as $i => $v)
-                {
-                    if(isset($v[1]) && is_string($v[0]) && count($v) == 2)
-                    {
-                        $query->where($v[0], $v[1]);
-                    }
-                    elseif(is_string($v))
-                    {
-                        $query->where($v);
-                    }
-                }
-            }
+			foreach($where as $i => $v)
+			{
+				/**
+				 * Checks if you're passing an PDO escape statement
+				 * ->where('price > ?', $price)
+				 */
+				if(isset($v[1]) && is_string($v[0]) && count($v) == 2)
+				{
+					$query->where($v[0], $v[1]);
+				}
+				elseif(is_string($v))
+				{
+					$query->where($v);
+				}
+			}
         }
         else
         {
@@ -148,32 +137,20 @@ abstract class <?=$this->_namespace?>_Model_DbTable_TableAbstract extends Zend_D
         }
         elseif(is_array($where) && isset($where[0]))
         {
-            /**
-             * Checks if you're passing an PDO escape statement
-             * ->where('price > ?', $price)
-             */
-             
-            if(isset($where[1]) && is_string($where[0]) && count($where) == 2)
-            {
-                $select->where($where[0], $where[1]);
-            }
-            elseif(is_array($where[0]))
-            {
-                /**
-                 * Adds a where/and statement for each of the inner arrays, and checks if it is a PDO escape statement or a string
-                 */
-                foreach($where as $i => $v)
-                {
-                    if(isset($v[1]) && is_string($v[0]) && count($v) == 2)
-                    {
-                        $select->where($v[0], $v[1]);
-                    }
-                    elseif(is_string($v))
-                    {
-                        $select->where($v);
-                    }
-                }
-            }
+			/**
+			 * Adds a where/and statement for each of the inner arrays, and checks if it is a PDO escape statement or a string
+			 */
+			foreach($where as $i => $v)
+			{
+				if(isset($v[1]) && is_string($v[0]) && count($v) == 2)
+				{
+					$select->where($v[0], $v[1]);
+				}
+				elseif(is_string($v))
+				{
+					$select->where($v);
+				}
+			}
         }
         else
         {
