@@ -215,7 +215,9 @@ abstract class <?=$this->_namespace?>_Model_ModelAbstract
             $result = $this->getMapper()->loadRelated($matches[1], $this);
 
             return $result;
-        }
+        } elseif (preg_match('/^fetchList/', $method, $matches)) {
+			return $this->getMapper()->$matches[0]($args[0]);
+		}
 
 <?php if (! empty($this->_loggerName)):?>
 		$this->_logger->log("Unrecoginized method requested in call for '$method' in " . get_class($this), Zend_Log::ERR);

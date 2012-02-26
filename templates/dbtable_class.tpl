@@ -76,16 +76,40 @@ abstract class <?=$this->_namespace?>_Model_DbTable_TableAbstract extends Zend_D
     /**
      * Returns the number of rows in the table with optional WHERE clause
      *
-     * @param $where string Where clause to use with the query
+     * @param $where mixed Where clause to use with the query
      * @return int
      */
     public function countByQuery($where = '')
     {
         $query = $this->select()->from($this->_name, 'count(*) AS all_count');
 
-        if (! empty($where)) {
+		if (! empty($where) && is_string($where))
+        {
             $query->where($where);
         }
+        elseif(is_array($where) && isset($where[0]))
+        {
+			foreach($where as $i => $v)
+			{
+				/**
+				 * Checks if you're passing an PDO escape statement
+				 * ->where('price > ?', $price)
+				 */
+				if(isset($v[1]) && is_string($v[0]) && count($v) == 2)
+				{
+					$query->where($v[0], $v[1]);
+				}
+				elseif(is_string($v))
+				{
+					$query->where($v);
+				}
+			}
+        }
+        else
+        {
+            throw new Exception("You must pass integer indexes on the select statement array.");
+        }
+
 
         $row = $this->getAdapter()->query($query)->fetch();
 
@@ -95,21 +119,42 @@ abstract class <?=$this->_namespace?>_Model_DbTable_TableAbstract extends Zend_D
     /**
      * Generates a query to fetch a list with the given parameters
      *
-     * @param $where string Where clause to use with the query
+     * @param $where mixed Where clause to use with the query
      * @param $order string Order clause to use with the query
      * @param $count int Maximum number of results
      * @param $offset int Offset for the limited number of results
      * @return Zend_Db_Select
      */
-    public function fetchList($where = null, $order = null, $count = null,
-        $offset = null
-    ) {
+    public function fetchList($where = null, $order = null, $count = null, $offset = null)
+    {
         $select = $this->select()
-            				->order($order)
-            				->limit($count, $offset);
+                    ->order($order)
+                    ->limit($count, $offset);
 
-        if (! empty($where)) {
+        if (! empty($where) && is_string($where))
+        {
             $select->where($where);
+        }
+        elseif(is_array($where) && isset($where[0]))
+        {
+			/**
+			 * Adds a where/and statement for each of the inner arrays, and checks if it is a PDO escape statement or a string
+			 */
+			foreach($where as $i => $v)
+			{
+				if(isset($v[1]) && is_string($v[0]) && count($v) == 2)
+				{
+					$select->where($v[0], $v[1]);
+				}
+				elseif(is_string($v))
+				{
+					$select->where($v);
+				}
+			}
+        }
+        else
+        {
+            throw new Exception("You must pass integer indexes on the select statement array.");
         }
 
         return $select;

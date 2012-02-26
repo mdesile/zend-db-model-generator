@@ -34,12 +34,14 @@ class Make_mysql extends MakeDbTable {
 	protected function _convertTypeToPhp($str) {
 		if (preg_match('/(tinyint\(1\)|bit)/', $str)) {
 			$res = 'boolean';
-		} elseif(preg_match('/(datetime|timestamp|blob|char)/', $str)) {
+		} elseif(preg_match('/(datetime|timestamp|blob|char|enum|text|date)/', $str)) {
 			$res = 'string';
-		} elseif (preg_match('/(decimal|numeric)/', $str)) {
+		} elseif (preg_match('/(decimal|numeric|float|double)/', $str)) {
 			$res = 'float';
 		} elseif (preg_match('#^(?:tiny|small|medium|long|big|var)?(\w+)(?:\(\d+\))?(?:\s\w+)*$#',$str,$matches)) {
 			$res = $matches[1];
+		} else {
+			print "Can't convert column type to PHP - Unrecognized type: $str";
 		}
 
 		return $res;

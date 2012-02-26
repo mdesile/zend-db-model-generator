@@ -16,12 +16,13 @@
  * @see <?=$this->_namespace?>_Model_Mapper_<?=$this->_className . "\n"?>
  */
 require_once dirname(__FILE__) . '/mappers/<?=$this->_className?>.php';
-<? endif; ?>
 
 /**
  * Abstract class for models
  */
 require_once 'ModelAbstract.php';
+<? endif; ?>
+
 
 /**
  * <?=$this->_classDesc."\n"?>

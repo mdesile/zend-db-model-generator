@@ -1,6 +1,7 @@
 #!/usr/bin/php
 <?php
-if (!is_file(dirname(__FILE__).'/config/config.php')) {
+
+if (!is_file(dirname(__FILE__).'/config/config.php')){
     die("please copy config/config.php-default to config/config.php and modify.");
 }
 
@@ -37,6 +38,7 @@ if (sizeof($params['--namespace']) == 1) {
 
 $dbname=$params['--database'][0];
 $cls = new $class($config,$dbname,$namespace);
+
 $tables=array();
 if ($params['--all-tables'] || sizeof($params['--tables-regex'])>0) {
     $tables=$cls->getTablesNamesFromDb();
