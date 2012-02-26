@@ -1,3 +1,7 @@
+* NOTICE - Please read the ChangeLog file for latest updates and changes
+           regarding v0.7RC1.
+          
+
 Zend-Db-Model-Generator
 ----------------------
 

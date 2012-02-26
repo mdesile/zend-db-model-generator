@@ -1,3 +1,30 @@
+2012-02-26 18:21:36  pedrospdc@gmail.com
+version 0.7 rc1 is out! 
+    - Added more column types to DB->PHP conversion.
+    - Abstract model's require won't be added anymore if the require 
+flag is set to false.
+    - Added support to multiple where/and statements on 
+fetchList/fetchListToArray
+    - Added support to PDO escape statements on 
+fetchList/fetchListToArray
+    
+    	$query = array(
+    		array('id = ?', $id), //WHERE
+    		'publish_date >= NOW()' //AND
+    	);
+    
+    	Please notice that you just need to use the second level array 
+in order to escape the query.
+    - Added save.return_id flag to config. If set, every insert save 
+method will return its primary key value (last inserted id). This won't 
+happen when updating.
+
+ Now fetchList and fetchListArray may be used from model - added 
+fetchList regex recognition to model abstract __call
+
+- Added support to PDO escape and multiple where/and to countByQuery
+- pdo and general bugs
+
 2011-08-21 14:33:39 kfirufk@gmail.com
        * version 0.6
 	- 0.6 beta as moved to the official version
