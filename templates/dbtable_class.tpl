@@ -89,12 +89,11 @@ abstract class <?=$this->_namespace?>_Model_DbTable_TableAbstract extends Zend_D
         }
         elseif(is_array($where) && isset($where[0]))
         {
+			/**
+			 * Adds a where/and statement for each of the inner arrays, and checks if it is a PDO escape statement or a string
+			 */
 			foreach($where as $i => $v)
 			{
-				/**
-				 * Checks if you're passing an PDO escape statement
-				 * ->where('price > ?', $price)
-				 */
 				if(isset($v[1]) && is_string($v[0]) && count($v) == 2)
 				{
 					$query->where($v[0], $v[1]);
