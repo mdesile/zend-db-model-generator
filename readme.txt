@@ -1,6 +1,7 @@
 * NOTICE - Please read the ChangeLog file for latest updates and changes
-           regarding v0.7RC1.
-          
+           regarding v0.7RC2.
+* I officially started working on a version that supports Zend Framework 2.
+* (about time!) :)          
 
 Zend-Db-Model-Generator
 ----------------------

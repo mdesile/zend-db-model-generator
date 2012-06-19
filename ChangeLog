@@ -1,3 +1,9 @@
+Mon Jun 18 09:15:17 IDT 2012 kfirufk@gmail.com
+version 0.7 rc2 is out!
+    - merged with pedrospdc branch so this patch only includes his fixes.
+    - loadModel wont bug with __call when used from the model itself anymore
+
+
 2012-02-26 18:21:36  pedrospdc@gmail.com
 version 0.7 rc1 is out! 
     - Added more column types to DB->PHP conversion.

@@ -10,4 +10,5 @@ TODO List
                                 -More testing on different platforms
                                 -Improve documentation/update existing
                                 -Implement dirty checking?
+				-Zend Framework 2 support
 

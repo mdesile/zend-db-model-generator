@@ -5,12 +5,12 @@ if (!is_file(dirname(__FILE__).'/config/config.php')){
     die("please copy config/config.php-default to config/config.php and modify.");
 }
 
-define('VERSION', '0.6');
+define('VERSION', '0.8-Beta1');
 define('AUTHOR',  'Kfir Ozer <kfirufk@gmail.com>');
 
 require_once('class/MakeDbTable.php');
 require_once('class/ArgvParser.php');
-require_once('config/config.php');
+require_once('config/config-generic.php');
 
 if (!ini_get('short_open_tag')) {
     die("please enable short_open_tag directive in php.ini\n");
