@@ -1,6 +1,0 @@
-<?php
-// configuration specific to zend framework v2
-$configv2=array(
-
-);
-$config=array_merge($config,$configv2);

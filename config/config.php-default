@@ -43,7 +43,23 @@ $config=array(
     'cache.name' => 'model',
 
     # The Zend Log name in the Zend Registry. Leave blank to ignore
-    'log.logger_name' => ''    
+    'log.logger_name' => '',
+    
+    ############### zend framework 1.x related directives. ignore if generating for zf2 ###########
+    
+    # if enabled, to add require_once to the model file to include the mapper file,
+    # and in the mapper file to include the dbtable file.
+    # usful if you don't have class auto-loading.
+    # if you're using Zend Framework's MVC you can probably set this to false
+    'include.addrequire' => false,
+    
+	# include path with inclusion of files based upon (type)_(table_name).inc
+	# Either relative path to parent folder or absolute path
+    'include.path' => 'includes',
+
+    # default namespace name
+    'namespace.default' => 'Default',
+    #####################################################################################################   
     
 
 );
