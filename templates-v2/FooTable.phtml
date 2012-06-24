@@ -1,4 +1,16 @@
-namespace <?= $this->_namespace ?>\Model;
+<?php
+$columnsWithoutPrimaryKeys = array();
+$columnsWithoutPrimaryKeysAsVars = array();
+
+foreach ($this->_columns as $column) {
+	$field = $column['field'];
+	if ($field != $this->_primaryKey) {
+		array_push($columnsWithoutPrimaryKeys,$field);
+		array_push($columnsWithoutPrimaryKeysAsVars,'$'.$field);
+	}
+}
+
+?>namespace <?= $this->_namespace ?>\Model;
 
 use Zend\Db\TableGateway\AbstractTableGateway,
     Zend\Db\Adapter\Adapter,
@@ -26,7 +38,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     public function get<?=$this->_className?>($id)
     {
         $id  = (int) $id;
-        $rowset = $this->select(array('id' => $id));
+        $rowset = $this->select(array('$<?=$this->_primaryKey['field']?>' => $id));
         $row = $rowset->current();
         if (!$row) {
             throw new \Exception("Could not find row $id");
@@ -36,8 +48,9 @@ class <?=$this->_className?>Table extends AbstractTableGateway
 
     public function save<?=$this->_className?>(<?=$this->_className?> $<?=$this->_tbname?>)
     {
-        $data = array(<?php foreach ($this->_columns as $column): ?>
-            '<?= $column->field?>' => $<?=$this->_tbname?>-><?= $column->capital?>,
+        $data = array(
+        	<?php foreach ($columnsWithoutPrimaryKeys as $column): ?>
+            '<?= $column?>' => <?=$this->_tbname?>-><?= $column?>,
             <?php endforeach; ?>
         );
 
@@ -46,34 +59,35 @@ class <?=$this->_className?>Table extends AbstractTableGateway
             $this->insert($data);
         } else {
             if ($this->get<?=$this->_className?>($id)) {
-                $this->update($data, array('id' => $id));
+                $this->update($data, array('<?= $this->_primaryKey['field']?>' => $id));
             } else {
                 throw new \Exception('Form id does not exit');
             }
         }
     }
 
-    public function add<?=$this->_className?>($artist, $title)
+    public function add<?=$this->_className?>(<?= join($columnsWithoutPrimaryKeysAsVars,", "); ?>)
     {
-        $data = array(<?php foreach ($this->columns as $column): ?>
-            '<?= $column->field?>' => $<?= $column->field?>,
+        $data = array(<?php foreach ($columnsWithoutPrimaryKeys as $column): ?>
+            '<?= $column?>' => $<?= $column?>,
             <?php endforeach; ?>
         );
         $this->insert($data);
     }
 
-    public function update<?=$this->_className?>($id, $artist, $title)
+    public function update<?=$this->_className?>($<?=$this->_primaryKey['field']?>, <?= join($columnsWithoutPrimaryKeysAsVars,", "); ?>)
     {
         $data = array(
-            'artist' => $artist,
-            'title'  => $title,
-        );
-        $this->update($data, array('id' => $id));
+        	<?php foreach ($columnsWithoutPrimaryKeys as $column): ?>
+            '<?= $column?>' => <?=$this->_tbname?>-><?= $column?>,
+            <?php endforeach; ?>
+                );
+        $this->update($data, array(<?= $this->_primaryKey['field']?> => $id));
     }
 
     public function delete<?=$this->_className?>($id)
     {
-        $this->delete(array('id' => $id));
+        $this->delete(array('<?= $this->_primaryKey['field']?>' => $id));
     }
 
 }
