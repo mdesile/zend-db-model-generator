@@ -4,8 +4,8 @@ require_once('MakeDbTableAbstract.php');
 
 abstract class MakeDbTable extends  MakeDbTableAbstract {
 
-	function __construct($config,$dbname) {
-		parent::__construct($config, $dbname);
+	function __construct($config,$dbname,$namespace) {
+		parent::__construct($config, $dbname,$namespace);
 	}
 	
 	function doItAll() {

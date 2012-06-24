@@ -8,7 +8,7 @@ if (!is_file(dirname(__FILE__).'/config/config.php')){
 define('VERSION', '0.8-Beta1');
 define('AUTHOR',  'Kfir Ozer <kfirufk@gmail.com>');
 
-require_once('config/config-generic.php');
+require_once('config/config.php');
 require_once('class/ArgvParser.php');
 
 
@@ -46,26 +46,14 @@ if (! $include || ! class_exists($class)) {
     die ("Database type specified is not supported\n");
 }
 
-switch ($config['default_zend_framework_version']) {
-	case 1:
-			$namespace=$config['namespace.default'];
-			
-			if (sizeof($params['--namespace']) == 1) {
-				$namespace=$params['--namespace'][0];
-			}
-			
-			$dbname=$params['--database'][0];
-			$cls = new $class($config,$dbname,$namespace);
-		break;
-	case 2:
+$namespace=$config['namespace.default'];
 		
-		$dbname=$params['--database'][0];
-		$cls = new $class($config,$dbname);
-		
-		break;
-	default:
-		die("error: default_zend_framework_version - bad parameter");
+if (sizeof($params['--namespace']) == 1) {
+	$namespace=$params['--namespace'][0];
 }
+		
+$dbname=$params['--database'][0];
+$cls = new $class($config,$dbname,$namespace);
 
 $tables=array();
 if ($params['--all-tables'] || sizeof($params['--tables-regex'])>0) {

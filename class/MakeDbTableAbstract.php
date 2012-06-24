@@ -43,6 +43,11 @@ abstract class MakeDbTableAbstract {
 	 */
 	protected $_primaryKey;
 
+	/**
+	 *   @var String $_namespace;
+	 */
+	protected $_namespace;
+	
 
 	/**
 	 *  @var Array $_config;
@@ -362,11 +367,12 @@ abstract class MakeDbTableAbstract {
 	 * @param String $dbname
 	 * @param String $namespace
 	 */
-	function __construct($config,$dbname) {
+	function __construct($config,$dbname,$namespace) {
 
 		$columns=array();
 		$primaryKey=array();
-
+		$this->_namespace=$namespace;
+		
 		
 		$this->_config=$config;
 		$this->_returnId = $config['save.return_id'];

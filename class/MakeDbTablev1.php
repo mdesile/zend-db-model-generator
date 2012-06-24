@@ -12,10 +12,6 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
 	 */
 	protected $_addRequire;
 
-	/**
-	 *   @var String $_namespace;
-	 */
-	protected $_namespace;
 	
 	/**
 	 *   @var String $_includePath;
@@ -23,10 +19,6 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
 	protected $_includePath;
 	
 	
-	/**
-	 *
-	 * @param string $location
-	 */
 	public function setIncludePath($path) {
 		$this->_includePath = $path;
 	}
@@ -52,7 +44,6 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
 	function __construct($config,$dbname,$namespace) {
 		parent::__construct($config, $dbname);
 		$this->_addRequire = $config['include.addrequire'];
-		$this->_namespace=$namespace;
 		$path = $this->_config['include.path'];
 		
 		
