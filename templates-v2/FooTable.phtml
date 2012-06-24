@@ -36,7 +36,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
 
     public function save<?=$this->_className?>(<?=$this->_className?> $<?=$this->_tbname?>)
     {
-        $data = array(<?php foreach ($this->columns as $column): ?>
+        $data = array(<?php foreach ($this->_columns as $column): ?>
             '<?= $column->field?>' => $<?=$this->_tbname?>-><?= $column->capital?>,
             <?php endforeach; ?>
         );
