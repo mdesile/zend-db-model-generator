@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-if (!is_file(dirname(__FILE__).'/config/config-generic.php')){
+if (!is_file(dirname(__FILE__).'/config/config.php')){
     die("please copy config/config.php-default to config/config.php and modify.");
 }
 
