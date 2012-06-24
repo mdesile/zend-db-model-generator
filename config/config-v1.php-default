@@ -15,18 +15,8 @@ $configv1=array(
     # default namespace name
     'namespace.default' => 'Default',
 
-    # The Cache Manager name in the Zend Registry. Leave blank to ignore
-    'cache.manager_name' => '',
 
-    # The Cache name to use inside the cache manager. Ignored if manager_name is blank
-    'cache.name' => 'model',
 
-    # The Zend Log name in the Zend Registry. Leave blank to ignore
-    'log.logger_name' => '',
-
-    # if enabled, all save methods will return the inserted ID when the row is created (this will not trigger when its an update)
-
-    'save.return_id' => false
 
 );
 

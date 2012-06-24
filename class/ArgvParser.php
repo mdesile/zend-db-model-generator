@@ -25,6 +25,7 @@ parameters:
  *  --ignore-table        : not to create a class for a specific table
  *  --ignore-tables-regex : ignore tables by perl regular expression
  *  --tables-regex        : add tables by perl regular expression
+    --zfv                 : zend framework version (1 or 2)
 
                     parameters with * can be used more then once.
  example: zdmg.php --database foo --table foobar --tables-regex ^bar_ --ignore-table bar_abc
@@ -43,7 +44,8 @@ USAGE;
                 '--all-tables'=>false,
                 '--ignore-table'=>array(),
                 '--ignore-tables-regex'=>array(),
-                '--tables-regex'=>array()
+                '--tables-regex'=>array(),
+        		'--zfv'=>array()
             );
         $argv=$this->_argv;
         array_shift($argv);
@@ -56,12 +58,16 @@ USAGE;
                     $params[$param][]=array_shift($argv);
             } else die ("error: unknown parameter '$param'\n".$this->getUsage());
         }
+        if (sizeof($params['--zfv']) == 1 && ($params['--zfv'][0] != 1 && $params['--zfv'][0] != 2)) 
+        			die("bad zend framework version parameter. accepted values are 1 or 2 (for v1.x or v2.x)\n");        	        	
         if (sizeof($params['--database']) != 1)
                 die("error: please provide one database parameter\n".$this->getUsage());
         if (sizeof($params['--namespace'])>1)
                 die("error: namespace parameter can't be used more than once\n".$this->getUsage());
         if (sizeof($params['--location'])>1)
                 die("error: location parameter can't be used more than once\n".$this->getUsage());
+        if (sizeof($params['--zfv'])>1) 
+        		die("error: zend framework version parameter can't be used more then once\n".$this->getUsage());
         return $params;
 
     }

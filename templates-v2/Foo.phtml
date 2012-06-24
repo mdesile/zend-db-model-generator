@@ -1,4 +1,3 @@
-<?php
 
 namespace Album\Model;
 
@@ -9,7 +8,7 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 
-class Album extends Row implements InputFilterAwareInterface
+class <?=$this->_className?> extends Row implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
