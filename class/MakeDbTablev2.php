@@ -20,7 +20,6 @@ abstract class MakeDbTable extends  MakeDbTableAbstract {
 			die("Error: could not write model file $fooFile.");
 		if (!file_put_contents($fooTableFile,$fooTableData))
 			die("Error: could not write model file $fooFile.");
-		
 		return true;
 	
 	}

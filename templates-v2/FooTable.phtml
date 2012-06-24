@@ -36,9 +36,9 @@ class <?=$this->_className?>Table extends AbstractTableGateway
 
     public function save<?=$this->_className?>(<?=$this->_className?> $<?=$this->_tbname?>)
     {
-        $data = array(
-            'artist' => $<?=$this->_tbname?>->artist,
-            'title'  => $<?=$this->_tbname?>->title,
+        $data = array(<?php foreach ($this->columns as $column): ?>
+            '<?= $column->field?>' => $<?=$this->_tbname?>-><?= $column->capital?>,
+            <?php endforeach; ?>
         );
 
         $id = (int)$<?=$this->_tbname?>->id;
@@ -55,9 +55,9 @@ class <?=$this->_className?>Table extends AbstractTableGateway
 
     public function add<?=$this->_className?>($artist, $title)
     {
-        $data = array(
-            'artist' => $artist,
-            'title'  => $title,
+        $data = array(<?php foreach ($this->columns as $column): ?>
+            '<?= $column->field?>' => $<?= $column->field?>,
+            <?php endforeach; ?>
         );
         $this->insert($data);
     }
