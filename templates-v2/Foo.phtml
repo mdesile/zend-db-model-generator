@@ -126,6 +126,7 @@ class <?=$this->_className?> extends Row implements InputFilterAwareInterface
 			if ($fieldName == $this->_primaryKey) {
 				inputFilterPrimaryKey($this->_columns,$fieldName);
 			} else {
+				//TODO: timestamp is shown as phptype string. probably a new filter should be created
 				switch ($column['phptype']) {
 					case 'string':
 						inputFilterString($this->_columns,$fieldName,$this->_charset);
