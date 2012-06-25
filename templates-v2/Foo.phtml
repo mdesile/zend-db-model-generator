@@ -1,5 +1,85 @@
+<?php
+	function getisRequiredString($columns,$columnName) {
+		$column=null;
+		foreach ($columns as $col) {
+			if ($col['field'] == $columnName) {
+				$column=$col;
+				break;
+			}
+		}
+		
+		$isRequired=false;
+		if ($column == null) {
+			die("getIsRequiredString error: column name does not exist! :".$columnName);
+		}
+		if (array_key_exists('required',$column)) {
+			$isRequired=$column['required'];
+		}
+		return $isRequired ? "true" : "false";
+	}
 
-namespace <?=$this->_namespace?>\Model;
+	function inputFilterPrimaryKey($columns,$columnName) {
+		$isRequired = getisRequiredString($columns,$columnName);
+		if ($this->_columns[$columnName]['phptype'] != 'int') {
+			die("not supported: ".var_export($this->_columns[$columnName],1));
+		}
+		echo "            \$inputFilter->add(\$factory->createInput(array(
+                'name'       => '$columnName',
+                'required'   => $isRequired,
+                'filters' => array(
+                    array('name'    => 'Int'),
+                ),
+            )));
+		";
+	}
+	
+	function inputFilterInt($columns,$columnName) {
+		$isRequired = getisRequiredString($columns,$columnName);
+						echo "            \$inputFilter->add(\$factory->createInput(array(
+                'name'       => '$columnName',
+                'required'   => $isRequired,
+                'filters' => array(
+                    array('name'    => 'Int'),
+                ),
+            )));
+		";
+	}
+	
+	function inputFilterBoolean($columns,$columnName) {
+		$isRequired = getisRequiredString($columns,$columnName);
+						echo "            \$inputFilter->add(\$factory->createInput(array(
+                'name'       => '$columnName',
+                'required'   => $isRequired,
+            )));
+		";
+	}
+	
+	function inputFilterString($columns,$columnName) {
+		$isRequired = getisRequiredString($columns,$columnName);
+						echo "            \$inputFilter->add(\$factory->createInput(array(
+                'name'     => '$columnName',
+                'required' => $isRequired,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            )));
+		";
+	}
+	
+	
+
+?>namespace <?=$this->_namespace?>\Model;
 
 use Zend\Db\ResultSet\Row;
 use Zend\InputFilter\InputFilter;
@@ -23,52 +103,28 @@ class <?=$this->_className?> extends Row implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
 
             $factory = new InputFactory();
-
-            $inputFilter->add($factory->createInput(array(
-                'name'       => 'id',
-                'required'   => true,
-                'filters' => array(
-                    array('name'    => 'Int'),
-                ),
-            )));
-
-            $inputFilter->add($factory->createInput(array(
-                'name'     => 'artist',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 100,
-                        ),
-                    ),
-                ),
-            )));
-
-            $inputFilter->add($factory->createInput(array(
-                'name'     => 'title',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 100,
-                        ),
-                    ),
-                ),
-            )));
+            
+<?php foreach ($this->_columns as $column) { 
+			$fieldName=$column['field'];
+			if ($fieldName == $this->_primaryKey) {
+				inputFilterPrimaryKey($this->_columns,$fieldName);
+			} else {
+				switch ($column['phptype']) {
+					case 'string':
+						inputFilterString($this->_columns,$fieldName);
+						break;
+					case 'int':
+						inputFilterInt($this->_columns,$fieldName);
+						break;
+					case 'boolean':
+						inputFilterBoolean($this->_columns,$fieldName);
+						break;
+					default:
+						
+				}
+			}
+	  }
+?> 
 
             $this->inputFilter = $inputFilter;        
         }
