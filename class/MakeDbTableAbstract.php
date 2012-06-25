@@ -54,7 +54,12 @@ abstract class MakeDbTableAbstract {
 	 */
 	protected $_config;
 
-
+	
+	/**
+	 * @var String charset;
+	 */
+	
+	protected $_charset='utf8';
 
 	/**
 	 *   @var Boolean $_returnId;

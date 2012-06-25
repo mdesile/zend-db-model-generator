@@ -62,6 +62,13 @@ class Make_mysql extends MakeDbTable {
 		}
 
 		$query = $res[0]['Create Table'];
+		if (preg_match('/CHARSET=(\w+)/',$query,$matches) == 2) {
+			$this->_charset=$matches[1];
+		} else {
+			$qry=$this->_pdo->query("SHOW VARIABLES LIKE \"character\_set\_database\";");
+			$res=$qry->fetchColumn(1);
+			$this->_charset=$res;
+		}
 		$lines = explode("\n",$query);
 		$tblinfo = array();
 		$keys = array();

@@ -1,5 +1,5 @@
 <?php
-	function getisRequiredString($columns,$columnName) {
+	function getColumn($columns,$columnName) {
 		$column=null;
 		foreach ($columns as $col) {
 			if ($col['field'] == $columnName) {
@@ -7,11 +7,15 @@
 				break;
 			}
 		}
+		if ($column == null) {
+			die("getColumn: column not found: ".$columnName);
+		}
+		return $column;
+	}
+
+	function getisRequiredString($column) {
 		
 		$isRequired=false;
-		if ($column == null) {
-			die("getIsRequiredString error: column name does not exist! :".$columnName);
-		}
 		if (array_key_exists('required',$column)) {
 			$isRequired=$column['required'];
 		}
@@ -19,9 +23,10 @@
 	}
 
 	function inputFilterPrimaryKey($columns,$columnName) {
-		$isRequired = getisRequiredString($columns,$columnName);
-		if ($this->_columns[$columnName]['phptype'] != 'int') {
-			die("not supported: ".var_export($this->_columns[$columnName],1));
+		$column = getColumn($columns, $columnName);
+		$isRequired = getisRequiredString($column);
+		if ($column['phptype'] != 'int') {
+			die("not supported: ".var_export($column,1));
 		}
 		echo "            \$inputFilter->add(\$factory->createInput(array(
                 'name'       => '$columnName',
@@ -34,8 +39,9 @@
 	}
 	
 	function inputFilterInt($columns,$columnName) {
-		$isRequired = getisRequiredString($columns,$columnName);
-						echo "            \$inputFilter->add(\$factory->createInput(array(
+		$column = getColumn($columns, $columnName);
+		$isRequired = getisRequiredString($column);
+								echo "            \$inputFilter->add(\$factory->createInput(array(
                 'name'       => '$columnName',
                 'required'   => $isRequired,
                 'filters' => array(
@@ -46,33 +52,44 @@
 	}
 	
 	function inputFilterBoolean($columns,$columnName) {
-		$isRequired = getisRequiredString($columns,$columnName);
-						echo "            \$inputFilter->add(\$factory->createInput(array(
+		$column = getColumn($columns, $columnName);
+		$isRequired = getisRequiredString($column);
+								echo "            \$inputFilter->add(\$factory->createInput(array(
                 'name'       => '$columnName',
                 'required'   => $isRequired,
             )));
 		";
 	}
 	
-	function inputFilterString($columns,$columnName) {
-		$isRequired = getisRequiredString($columns,$columnName);
-						echo "            \$inputFilter->add(\$factory->createInput(array(
+	function inputFilterString($columns,$columnName,$charset) {
+		$column = getColumn($columns, $columnName);
+		$isRequired = getisRequiredString($column);
+		$strMaxLength=0;
+		if (preg_match('/\((\d+)\)/', $column['type'],$matches) == 1) {
+			$strMaxLength=$matches[1];
+		}
+								echo "            \$inputFilter->add(\$factory->createInput(array(
                 'name'     => '$columnName',
                 'required' => $isRequired,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
+                ),";
+		if ($strMaxLength > 0) {
+			// TODO: charset here is set to utf8 instead of UTF-8. test if it's ok
+		echo "
+              'validators' => array(
                     array(
                         'name'    => 'StringLength',
                         'options' => array(
-                            'encoding' => 'UTF-8',
+                            'encoding' => '$charset',
                             'min'      => 1,
-                            'max'      => 100,
+                            'max'      => $strMaxLength,
                         ),
                     ),
-                ),
+                ),";
+		}
+		echo "
             )));
 		";
 	}
@@ -111,7 +128,7 @@ class <?=$this->_className?> extends Row implements InputFilterAwareInterface
 			} else {
 				switch ($column['phptype']) {
 					case 'string':
-						inputFilterString($this->_columns,$fieldName);
+						inputFilterString($this->_columns,$fieldName,$this->_charset);
 						break;
 					case 'int':
 						inputFilterInt($this->_columns,$fieldName);
