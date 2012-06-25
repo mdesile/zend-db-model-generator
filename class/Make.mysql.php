@@ -219,6 +219,7 @@ class Make_mysql extends MakeDbTable {
 			$columns[] = array(
                 'field'   => $row['Field'],
                 'type'    => $row['Type'],
+				'required'=> $row['Null'] == 'YES',
                 'phptype' => $this->_convertTypeToPhp($row['Type']),
                 'capital' => $this->_getCapital($row['Field']),
                 'comment' => $comment,
