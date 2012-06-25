@@ -51,7 +51,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     {
         $data = array(
         	<?php foreach ($columnsWithoutPrimaryKeys as $column): ?>
-            '<?= $column?>' => <?=$this->_tbname?>-><?= $column?>,
+            '<?= $column?>' => $<?=$this->_tbname?>-><?= $column?>,
             <?php endforeach; ?>
         );
 
@@ -80,7 +80,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     {
         $data = array(
         	<?php foreach ($columnsWithoutPrimaryKeys as $column): ?>
-            '<?= $column?>' => <?=$this->_tbname?>-><?= $column?>,
+            '<?= $column?>' => $<?=$this->_tbname?>-><?= $column?>,
             <?php endforeach; ?>
                 );
         $this->update($data, array(<?= $this->_primaryKey['field']?> => $id));
