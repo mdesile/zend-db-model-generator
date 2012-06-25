@@ -4,7 +4,7 @@ $columnsWithoutPrimaryKeysAsVars = array();
 
 foreach ($this->_columns as $column) {
 	$field = $column['field'];
-	if ($field != $this->_primaryKey) {
+	if ($field != $this->_primaryKey['field']) {
 		array_push($columnsWithoutPrimaryKeys,$field);
 		array_push($columnsWithoutPrimaryKeysAsVars,'$'.$field);
 	}
