@@ -73,10 +73,15 @@ class <?=$this->_className?>Table extends AbstractTableGateway
             '<?= $column?>' => $<?= $column?>,
             <?php endforeach; ?>
         );
-        if ($this->insert($data) != 1) {
+        $affectedRows=$this->insert($data);
+        <?php if ($config['save.return_id']):?>
+        if ($affectedRows != 1) {
         	return null;
         }
         return $this->lastInsertValue;
+        <?php else:?>
+        return $affectedRows;
+        <?php endif;?>
     }
 
     public function update<?=$this->_className?>($<?=$this->_primaryKey['field']?>, <?= join($columnsWithoutPrimaryKeysAsVars,", "); ?>)
