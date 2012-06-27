@@ -39,7 +39,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     public function get<?=$this->_className?>($id)
     {
         $id  = (int) $id;
-        $rowset = $this->select(array('$<?=$this->_primaryKey['field']?>' => $id));
+        $rowset = $this->select(array('<?=$this->_primaryKey['field']?>' => $id));
         $row = $rowset->current();
         if (!$row) {
             throw new \Exception("Could not find row $id");
