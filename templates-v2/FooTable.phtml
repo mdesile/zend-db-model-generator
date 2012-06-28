@@ -24,7 +24,7 @@ foreach ($columnsRequired as $field) {
 	$parametersForFunctionArray[]="$".$field;
 }
 foreach ($columnsNotRequired as $field) {
-	$parametersForFunctionArray[]="$".field." = null";
+	$parametersForFunctionArray[]="$".$field." = null";
 }
 
 $paramsForFunction=join(", ",$parametersForFunctionArray);
