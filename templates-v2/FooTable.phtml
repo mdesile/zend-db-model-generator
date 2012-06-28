@@ -74,7 +74,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
             <?php endforeach; ?>
         );
         $affectedRows=$this->insert($data);
-        <?php if ($config['save.return_id']):?>
+        <?php if ($this->_returnId):?>
         if ($affectedRows != 1) {
         	return null;
         }
