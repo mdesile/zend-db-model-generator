@@ -2,13 +2,32 @@
 $columnsWithoutPrimaryKeys = array();
 $columnsWithoutPrimaryKeysAsVars = array();
 
+$columnsRequired = array();
+$columnsNotRequired = array();
+
 foreach ($this->_columns as $column) {
 	$field = $column['field'];
 	if ($field != $this->_primaryKey['field']) {
 		array_push($columnsWithoutPrimaryKeys,$field);
 		array_push($columnsWithoutPrimaryKeysAsVars,'$'.$field);
+		if ($column['required']) {
+			array_push($columnsRequired,$field);
+		} else {
+			array_push($columnsNotRequired,$field);
+		}
 	}
 }
+
+$parametersForFunctionArray=array();
+
+foreach ($columnsRequired as $field) {
+	$parametersForFunctionArray[]="$".$field;
+}
+foreach ($columnsNotRequired as $field) {
+	$parametersForFunctionArray[]="$".field." = null";
+}
+
+$paramsForFunction=join(", ",$parametersForFunctionArray);
 
 echo "<?php\n";?>
 namespace <?= $this->_namespace ?>\Model;
@@ -67,7 +86,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
         }
     }
 
-    public function add<?=$this->_className?>(<?= join($columnsWithoutPrimaryKeysAsVars,", "); ?>)
+    public function add<?=$this->_className?>(<?= $paramsForFunction ?>)
     {
         $data = array(<?php foreach ($columnsWithoutPrimaryKeys as $column): ?>
             '<?= $column?>' => $<?= $column?>,
