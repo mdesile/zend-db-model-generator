@@ -56,12 +56,16 @@ class <?=$this->_className?>Table extends AbstractTableGateway
         return $resultSet;
     }
     
-    public function getSelect($columnsArray) 
+   	public function newSelect() {
+    	return new Select;
+    }
+    
+    public function getSelect(&$select,$columnsArray=array()) 
     {
     	$select = new Select;
-    	return $select->from('<?=$this->_tbname?>')->columns($columnsArray);
+    	return $select->from('<?=$this->_tbname?>')->columns($columnsArray);    	
     }
-
+    
     public function get<?=$this->_className?>($id)
     {
         $id  = (int) $id;
