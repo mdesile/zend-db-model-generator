@@ -66,6 +66,23 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     	return $select->from('<?=$this->_tbname?>')->columns($columnsArray);    	
     }
     
+    public function createIfNotExist($checkColumnsArray,$optionalColumns=array()) {
+			$rowset=$this->select($checkColumnsArray);
+    		$row = $rowset->current();
+    		$id=null;
+    		if ($row == null) {
+    			$allColumns=array_merge($checkColumnsArray,$optionalColumns);
+    			$affectedRows = $this->insert($allColumns);
+    			if ($affectedRows != 1) {
+    				die("error: could not add drink type to db");
+    			}
+    			$id=$this->lastInsertValue;
+    		} else {
+    			$id=$row-><?=$this->_primaryKey['field']?>;
+    		}
+    		return $id;
+    }
+    
     public function get<?=$this->_className?>($id)
     {
         $id  = (int) $id;
