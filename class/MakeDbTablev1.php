@@ -42,7 +42,7 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
 	 * @param String $namespace
 	 */
 	function __construct($config,$dbname,$namespace) {
-		parent::__construct($config, $dbname);
+		parent::__construct($config, $dbname,$namespace);
 		$this->_addRequire = $config['include.addrequire'];
 		$path = $this->_config['include.path'];
 		
