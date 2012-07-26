@@ -272,9 +272,10 @@ abstract class <?=$this->_namespace?>_Model_Mapper_MapperAbstract
      * Deletes the current model
      *
      * @param <?=$this->_namespace?>_Model_ModelAbstract $model The model to delete
+     * @param boolean $useTransaction Flag to indicate if delete should be done inside a database transaction
      * @return int
      */
-    public abstract function delete($model);
+    public abstract function delete($model, $useTransaction);
 
     /**
      * Creates a Zend_Paginator class by a given select

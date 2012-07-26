@@ -84,12 +84,13 @@ foreach ($this->_columns as $column):
      * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $model The model to <?php if ($this->_softDeleteColumn != null): ?>mark as deleted
 <?php else: ?>delete
 <?php endif;?>
+     * @param boolean $useTransaction Flag to indicate if delete should be done inside a database transaction
 <?php if ($this->_softDeleteColumn == null): ?>
      * @see <?=$this->_namespace?>_Model_DbTable_TableAbstract::delete()
 <?php endif;?>
      * @return int
      */
-    public function delete($model)
+    public function delete($model, $useTransaction = true)
     {
         if (! $model instanceof <?=$this->_namespace?>_Model_<?=$this->_className?>) {
 <?php if (! empty($this->_loggerName)):?>
@@ -105,7 +106,9 @@ foreach ($this->_columns as $column):
             throw new Exception('Unable to delete: invalid model passed to mapper');
         }
 
-        $this->getDbTable()->getAdapter()->beginTransaction();
+        if ($useTransaction) {
+            $this->getDbTable()->getAdapter()->beginTransaction();
+        }
         try {
 <?php if ($this->_softDeleteColumn != null):
         foreach ($this->_columns as $column):
@@ -143,7 +146,9 @@ foreach ($this->_columns as $column):
 <?php endif; ?>
             $result = $this->getDbTable()->delete($where);
 
-            $this->getDbTable()->getAdapter()->commit();
+            if ($useTransaction) {
+                $this->getDbTable()->getAdapter()->commit();
+            }
         } catch (Exception $e) {
 <?php if (! empty($this->_loggerName)):?>
             $message = 'Exception encountered while attempting to delete ' . get_class($this);
@@ -165,7 +170,9 @@ foreach ($this->_columns as $column):
             $this->_logger->log($e->getTraceAsString(), Zend_Log::DEBUG);
 
 <?php endif; ?>
-            $this->getDbTable()->getAdapter()->rollback();
+            if ($useTransaction) {
+                $this->getDbTable()->getAdapter()->rollback();
+            }
             $result = false;
         }
 
