@@ -307,6 +307,17 @@ abstract class <?=$this->_namespace?>_Model_ModelAbstract
         return $this;
     }
 
+     /**
+      * Returns an object, keys are the field names.
+      *
+      * @see <?=$this->_namespace?>_Model_Mapper_MapperAbstract::toArray()
+      * @return object
+      */
+     public function toObject()
+     {
+        return (object) $this->getMapper()->toArray($this);
+     }
+
     /**
      * Returns the primary key column name
      *
