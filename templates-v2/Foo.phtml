@@ -4,14 +4,13 @@ require_once 'FooFunctions.php';
 echo "<?php\n";?>
 namespace <?=$this->_namespace?>\Model;
 
-use Zend\Db\ResultSet\Row;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 
-class <?=$this->_className?> extends Row implements InputFilterAwareInterface
+class <?=$this->_className?> implements InputFilterAwareInterface
 {
     protected $inputFilter;
 
