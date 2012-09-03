@@ -74,7 +74,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     			$allColumns=array_merge($checkColumnsArray,$optionalColumns);
     			$affectedRows = $this->insert($allColumns);
     			if ($affectedRows != 1) {
-    				die("error: could not add drink type to db");
+    				throw new \Exception("error: could not add line to db");
     			}
     			$id=$this->lastInsertValue;
     		} else {
@@ -82,6 +82,20 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     		}
     		return $id;
     }
+    
+    //http://stackoverflow.com/questions/6156942/how-do-i-insert-an-empty-row-but-have-the-autonumber-update-correctly
+    
+    public function createEmptyRow() {
+    	$row=array(
+    	'<?=$this->_primaryKey['field']?>' => null
+    	);
+    	$affectedRows=$this->insert($row);
+ 		if ($affectedRows != 1) {
+    		throw new \Exception("error: could not add empty row to db");
+    	}
+    	$id=$this->lastInsertValue;
+    	return $id;
+	}
     
     public function get<?=$this->_className?>($id)
     {
