@@ -66,7 +66,7 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     	return $select->from('<?=$this->_tbname?>')->columns($columnsArray);    	
     }
     
-    public function createIfNotExist($checkColumnsArray,$optionalColumns=array()) {
+    public function createIfNotExist($checkColumnsArray,$optionalColumns=array(),&$isRowCreated=null) {
 			$rowset=$this->select($checkColumnsArray);
     		$row = $rowset->current();
     		$id=null;
@@ -77,8 +77,10 @@ class <?=$this->_className?>Table extends AbstractTableGateway
     				throw new \Exception("error: could not add line to db");
     			}
     			$id=$this->lastInsertValue;
+    			$isRowCreated=true;
     		} else {
     			$id=$row-><?=$this->_primaryKey['field']?>;
+    			$isRowCreated=false;
     		}
     		return $id;
     }
