@@ -22,10 +22,10 @@ require_once 'TableAbstract.php';
  * Table definition for <?=$this->getTableName()."\n"?>
  *
  * @package <?=$this->_namespace?>_Db
- * @subpackage <?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_') ?>Table
+ * @subpackage <?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_') ?>Table
  * @author <?=$this->_author . "\n"?>
  */
-class <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchema())) ?>_Table_<?=$this->_className?> 
+class <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchemaNS())) ?>_Table_<?=$this->_className?> 
     extends <?=$this->_includeTable->getParentClass() . "\n"?>
 {
     /**

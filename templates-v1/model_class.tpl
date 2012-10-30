@@ -17,7 +17,7 @@
  * @subpackage Model
  * @author <?=$this->_author."\n"?>
  */
-abstract class <?=$this->_namespace?>_Db_Model_Abstract
+abstract class <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Model_Abstract
 {
     /**
      * Mapper associated with this model instance

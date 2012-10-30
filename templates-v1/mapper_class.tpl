@@ -17,7 +17,7 @@
  * @subpackage Mapper
  * @author <?=$this->_author."\n"?>
  */
-abstract class <?=$this->_namespace?>_Db_Mapper_Abstract
+abstract class <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Mapper_Abstract
 {
     /**
      * $_dbTable - instance of <?=$this->_namespace?>_Db_Table_Abstract

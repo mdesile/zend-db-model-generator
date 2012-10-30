@@ -168,6 +168,11 @@ abstract class MakeDbTableAbstract {
             return $this->_schema;
         }
     
+        public function getSchemaNS()
+        {
+            return $this->_getCapital($this->_schema);
+        }
+        
     /**
      *
      * @param array $info

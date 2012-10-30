@@ -25,7 +25,7 @@ require_once dirname(__FILE__) . '/../DbTable/<?=$this->_className?>.php';
  * @subpackage Mapper
  * @author <?=$this->_author . "\n"?>
  */
-class <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Mapper_<?=$this->_className?> 
+class <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Mapper_<?=$this->_className?> 
     extends <?=$this->_includeMapper->getParentClass() . "\n"?>
 {
 <?php $vars = $this->_includeMapper->getVars();
@@ -41,7 +41,7 @@ echo "\n$vars\n";
      */
     public function toArray($model)
     {
-        if (! $model instanceof <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?>) {
+        if (! $model instanceof <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Model_<?=$this->_className?>) {
 <?php if (! empty($this->_loggerName)):?>
             if (is_object($model)) {
                 $message = get_class($model) . " is not a <?=$this->_namespace?>_Model_<?=$this->_className?> object in toArray for " . get_class($this);
@@ -73,7 +73,7 @@ foreach ($this->_columns as $column):
     public function getDbTable()
     {
         if ($this->_dbTable === null) {
-            $this->setDbTable('<?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Table_<?=$this->_className?>');
+            $this->setDbTable('<?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Table_<?=$this->_className?>');
         }
 
         return $this->_dbTable;
@@ -93,12 +93,12 @@ foreach ($this->_columns as $column):
      */
     public function delete($model, $useTransaction = true)
     {
-        if (! $model instanceof <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?>) {
+        if (! $model instanceof <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Model_<?=$this->_className?>) {
 <?php if (! empty($this->_loggerName)):?>
             if (is_object($model)) {
-                $message = get_class($model) . " is not a <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?> object in delete for " . get_class($this);
+                $message = get_class($model) . " is not a <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Model_<?=$this->_className?> object in delete for " . get_class($this);
             } else {
-                $message = "$model is not a <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?> object in delete for " . get_class($this);
+                $message = "$model is not a <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Model_<?=$this->_className?> object in delete for " . get_class($this);
             }
 
             $this->_logger->log($message, Zend_Log::ERR);
@@ -190,7 +190,7 @@ foreach ($this->_columns as $column):
      * @param boolean $useTransaction Flag to indicate if save should be done inside a database transaction
      * @return boolean If the save action was successful
      */
-    public function save(<?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?> $model, $ignoreEmptyValues = true, $recursive = false, $useTransaction = true)
+    public function save(<?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Model_<?=$this->_className?> $model, $ignoreEmptyValues = true, $recursive = false, $useTransaction = true)
     {
         $data = $model->toArray();
         if ($ignoreEmptyValues) {
@@ -389,7 +389,7 @@ foreach ($this->_columns as $column):
     public function loadModel($data, $entry)
     {
         if ($entry === null) {
-            $entry = new <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?>();
+            $entry = new <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_')?>Model_<?=$this->_className?>();
         }
 
         if (is_array($data)) {

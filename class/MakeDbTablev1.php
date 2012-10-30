@@ -69,14 +69,14 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
             $include = new $class($this->_namespace);
             $this->_includeTable = $include;
         } else {
-            $this->_includeTable = new DbTable_Default($this->_namespace, $this->getSchema());
+            $this->_includeTable = new DbTable_Default($this->_namespace, $this->getSchemaNS());
         }
 
         $referenceMap = '';
         $directory = $this->getLocation() . 
                 DIRECTORY_SEPARATOR . $this->_namespace .
                 DIRECTORY_SEPARATOR . 'Db' . 
-                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchemaNS()): '') .
                 DIRECTORY_SEPARATOR . 'Table';
         @mkdir($directory, 0755, true);
         $dbTableFile = $directory . 
@@ -87,7 +87,7 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
         foreach ($foreignKeysInfo as $info) {
             $refTableClass = $this->_namespace . 
                     '_Db_' .
-                    ($this->getSchema() != ''? ucfirst($this->getSchema()) . '_': '') . 
+                    ($this->getSchema() != ''? ucfirst($this->getSchemaNS()) . '_': '') . 
                     'Table_' . 
                     $this->_getClassName($info['foreign_tbl_name']);
             $key = $this->_getCapital($info['key_name']);
@@ -145,13 +145,13 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
             $include = new $class($this->_namespace);
             $this->_includeMapper = $include;
         } else {
-            $this->_includeMapper = new Mapper_Default($this->_namespace, $this->getSchema());
+            $this->_includeMapper = new Mapper_Default($this->_namespace, $this->getSchemaNS());
         }
 
         $directory = $this->getLocation() . 
                 DIRECTORY_SEPARATOR . $this->_namespace .
                 DIRECTORY_SEPARATOR . 'Db' . 
-                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchemaNS()): '') .
                 DIRECTORY_SEPARATOR . 'Mapper';
         @mkdir($directory, 0755, true);
         $mapperFile = $directory . 
@@ -176,13 +176,13 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
             $include = new $class($this->_namespace);
             $this->_includeModel = $include;
         } else {
-            $this->_includeModel = new Model_Default($this->_namespace, $this->getSchema());
+            $this->_includeModel = new Model_Default($this->_namespace, $this->getSchemaNS());
         }
 
         $directory = $this->getLocation() . 
                 DIRECTORY_SEPARATOR . $this->_namespace .
                 DIRECTORY_SEPARATOR . 'Db' . 
-                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchemaNS()): '') .
                 DIRECTORY_SEPARATOR . 'Model';
         @mkdir($directory, 0755, true);
         $modelFile = $directory . 
@@ -211,7 +211,7 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
         $modelFile = $this->getLocation() . 
                 DIRECTORY_SEPARATOR . $this->_namespace .
                 DIRECTORY_SEPARATOR . 'Db' . 
-                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchemaNS()): '') .
                 DIRECTORY_SEPARATOR . 'Model' . 
                 DIRECTORY_SEPARATOR . 'Abstract.php';
         $modelData = $this->getParsedTplContents('model_class.tpl', 1);
@@ -231,7 +231,7 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
         $mapperFile = $this->getLocation() . 
                 DIRECTORY_SEPARATOR . $this->_namespace .
                 DIRECTORY_SEPARATOR . 'Db' . 
-                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchemaNS()): '') .
                 DIRECTORY_SEPARATOR . 'Mapper' . 
                 DIRECTORY_SEPARATOR . 'Abstract.php';
         $mapperData = $this->getParsedTplContents('mapper_class.tpl', 1);
@@ -243,7 +243,7 @@ abstract class MakeDbTable extends MakeDbTableAbstract {
         $tableFile = $this->getLocation() . 
                 DIRECTORY_SEPARATOR . $this->_namespace .
                 DIRECTORY_SEPARATOR . 'Db' . 
-                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchemaNS()): '') .
                 DIRECTORY_SEPARATOR . 'Table' . 
                 DIRECTORY_SEPARATOR . 'Abstract.php';
         $tableData = $this->getParsedTplContents('dbtable_class.tpl', 1);

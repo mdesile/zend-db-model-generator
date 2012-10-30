@@ -28,11 +28,11 @@ require_once 'ModelAbstract.php';
  * <?=$this->_classDesc."\n"?>
  *
  * @package <?=$this->_namespace?>_Db
- * @subpackage <?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_') ?>Model
+ * @subpackage <?= ($this->getSchema() == ''? '': ucfirst($this->getSchemaNS()) . '_') ?>Model
  * @author <?=$this->_author."\n"?>
  */
-class <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchema())) ?>_Model_<?=$this->_className?> 
-    extends <?=$this->_includeModel->getParentClass($this->getSchema()) . "\n"?>
+class <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchemaNS())) ?>_Model_<?=$this->_className?> 
+    extends <?=$this->_includeModel->getParentClass($this->getSchemaNS()) . "\n"?>
 {
 
 <?php foreach ($this->_columns as $column): ?>
@@ -300,7 +300,7 @@ else : ?>
     public function getMapper()
     {
         if ($this->_mapper === null) {
-        $this->setMapper(new <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchema())) ?>_Mapper_<?=$this->_className?>());
+        $this->setMapper(new <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchemaNS())) ?>_Mapper_<?=$this->_className?>());
         }
 
         return $this->_mapper;
