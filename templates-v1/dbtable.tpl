@@ -3,8 +3,8 @@
 /**
  * Application Model DbTables
  *
- * @package <?=$this->_namespace?>_Model
- * @subpackage DbTable
+ * @package <?=$this->_namespace?>_Db
+ * @subpackage Table
  * @author <?=$this->_author."\n"?>
  * @copyright <?=$this->_copyright."\n"?>
  * @license <?=$this->_license."\n"?>
@@ -12,7 +12,7 @@
 <? if ($this->_addRequire): ?>
 
 /**
- * Abstract class for <?=$this->_namespace?>_Model_DbTables
+ * Abstract class for <?=$this->_namespace?>_Model_Db_Table
  * @see <?=$this->_includeTable->getParentClass() . "\n"?>
  */
 require_once 'TableAbstract.php';
@@ -21,11 +21,12 @@ require_once 'TableAbstract.php';
 /**
  * Table definition for <?=$this->getTableName()."\n"?>
  *
- * @package <?=$this->_namespace?>_Model
- * @subpackage DbTable
+ * @package <?=$this->_namespace?>_Db
+ * @subpackage <?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_') ?>Table
  * @author <?=$this->_author . "\n"?>
  */
-class <?=$this->_namespace?>_Model_DbTable_<?=$this->_className?> extends <?=$this->_includeTable->getParentClass() . "\n"?>
+class <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchema())) ?>_Table_<?=$this->_className?> 
+    extends <?=$this->_includeTable->getParentClass() . "\n"?>
 {
     /**
      * $_name - name of database table

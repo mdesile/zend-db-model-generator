@@ -12,19 +12,22 @@ require_once('config/config.php');
 require_once('class/ArgvParser.php');
 
 
-if (!ini_get('short_open_tag')) {
+if (! ini_get('short_open_tag')) {
     die("please enable short_open_tag directive in php.ini\n");
 }
 
-if (!ini_get('register_argc_argv')) {
+if (! ini_get('register_argc_argv')) {
     die("please enable register_argc_argv directive in php.ini\n");
 }
 
+ini_set('display_errors', 'On');
+ini_set('display_startup_errors', 'On');
 
-$parser = new ArgvParser($argv,AUTHOR,VERSION);
-$params=$parser->checkParams();
+$parser = new ArgvParser($argv, AUTHOR, VERSION);
+$params = $parser->checkParams();
+
 if (sizeof($params['--zfv']) == 1) {
-	$config['default_zend_framework_version']=$params['--zfv'][0];
+	$config['default_zend_framework_version'] = $params['--zfv'][0];
 }
 
 switch ($config['default_zend_framework_version']) {
@@ -41,26 +44,31 @@ switch ($config['default_zend_framework_version']) {
 echo "about to create classes for zend framework".$config['default_zend_framework_version']."\n";
 $db_type = $config['db.type'];
 $class = 'Make_' . $db_type;
-$include = @include_once (dirname(__FILE__).DIRECTORY_SEPARATOR.'class'.DIRECTORY_SEPARATOR.'Make.'. $db_type . '.php');
+$include = @include_once (dirname(__FILE__) . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'Make.' . $db_type . '.php');
 if (! $include || ! class_exists($class)) {
     die ("Database type specified is not supported\n");
 }
 
-$namespace=$config['namespace.default'];
+$namespace = $config['namespace.default'];
 		
 if (sizeof($params['--namespace']) == 1) {
 	$namespace=$params['--namespace'][0];
 }
 		
-$dbname=$params['--database'][0];
-$cls = new $class($config,$dbname,$namespace);
+$dbname = $params['--database'][0];
 
-$tables=array();
-if ($params['--all-tables'] || sizeof($params['--tables-regex'])>0) {
-    $tables=$cls->getTablesNamesFromDb();
+$cls = new $class($config, $dbname, $namespace);
+
+$tables = array();
+if ($params['--all-tables'] || sizeof($params['--tables-regex']) > 0) {
+    if(sizeof($params['--schema']) > 0){
+        $tables = $cls->getTablesNamesFromDb($params['--schema'][0]);
+    } else {
+        $tables = $cls->getTablesNamesFromDb();
+    }
 }
 
-$tables=$parser->compileListOfTables($tables, $params);
+$tables = $parser->compileListOfTables($tables, $params);
 if (sizeof($tables) == 0) {
     die("error: please provide at least one table to parse.\n");
 }
@@ -70,27 +78,27 @@ $path='';
 if (sizeof($params['--location']) == 1) {
     // Check if a relative path
     if (! realpath($params['--location'][0])) {
-        $path = realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.$params['--location'][0]);
+        $path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . $params['--location'][0]);
     } else {
         $path = realpath($params['--location'][0]);
     }
     $cls->setLocation($path);
     $path .= DIRECTORY_SEPARATOR;
 } else {
-    $cls->setLocation(dirname(__FILE__).DIRECTORY_SEPARATOR.$params['--database'][0]);
-    $path=dirname(__FILE__).DIRECTORY_SEPARATOR.$params['--database'][0].DIRECTORY_SEPARATOR;
+    $cls->setLocation(dirname(__FILE__) . DIRECTORY_SEPARATOR . $params['--database'][0]);
+    $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . $params['--database'][0] . DIRECTORY_SEPARATOR;
 }
 
 switch ($config['default_zend_framework_version']) {
 	case 1:
-		foreach (array('DbTable', 'mappers') as $name) {
+		/*foreach (array('Db/Table', 'Db/Mapper', 'Db/Model') as $name) {
 		    $dir = $path . $name;
 		    if (!is_dir($dir)) {
 		        if (!@mkdir($dir,0755,true)) {
 		            die("error: could not create directory $dir\n");
 		        }
 		    }
-		}
+		}*/
 		break;
 	case 2:
 		if (!is_dir($path)) {
@@ -101,11 +109,15 @@ switch ($config['default_zend_framework_version']) {
 		break;
 }
 
+if(sizeof($params['--schema']) > 0){
+    $cls->setSchema($params['--schema'][0]);
+}
 
 $cls->setTableList($tables);
 
 foreach ($tables as $table) {
     $cls->setTableName($table);
+    
     try {
         $cls->parseTable();
         $cls->doItAll();

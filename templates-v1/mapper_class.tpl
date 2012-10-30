@@ -3,7 +3,7 @@
 /**
  * Application Model Mappers
  *
- * @package <?=$this->_namespace?>_Model
+ * @package <?=$this->_namespace?>_Db
  * @subpackage Mapper
  * @author <?=$this->_author."\n"?>
  * @copyright <?=$this->_copyright."\n"?>
@@ -13,16 +13,16 @@
 /**
  * Abstract class that is extended by all mappers
  *
- * @package <?=$this->_namespace?>_Model
+ * @package <?=$this->_namespace?>_Db
  * @subpackage Mapper
  * @author <?=$this->_author."\n"?>
  */
-abstract class <?=$this->_namespace?>_Model_Mapper_MapperAbstract
+abstract class <?=$this->_namespace?>_Db_Mapper_Abstract
 {
     /**
-     * $_dbTable - instance of <?=$this->_namespace?>_Model_DbTable_TableAbstract
+     * $_dbTable - instance of <?=$this->_namespace?>_Db_Table_Abstract
      *
-     * @var <?=$this->_namespace?>_Model_DbTable_TableAbstract
+     * @var <?=$this->_namespace?>_Db_Table_Abstract
      */
     protected $_dbTable;
 
@@ -132,7 +132,7 @@ abstract class <?=$this->_namespace?>_Model_Mapper_MapperAbstract
      * Fetches related object and sets it for the instance.
      *
      * @param string $name Key or table name of the relation (key or table) to load
-     * @param <?=$this->_namespace?>_Model_ModelAbstract $model
+     * @param <?=$this->_namespace?>_Db_Model_Abstract $model
      * @throws Exception If the relation could not be found
      * @return $model
      */
@@ -153,13 +153,13 @@ abstract class <?=$this->_namespace?>_Model_Mapper_MapperAbstract
         if (array_key_exists($name, $parents)) {
             $property = $parents[$name]['property'];
             $object_table_name = $parents[$name]['table_name'];
-            $table_class = '<?=$this->_namespace?>_Model_DbTable_' . $object_table_name;
+            $table_class = '<?=$this->_namespace?>_Db_Table_' . $object_table_name;
             $rule = $name;
             $type = 'parent';
         } elseif (array_key_exists($name, $dependents)) {
             $property = $dependents[$name]['property'];
             $object_table_name = $dependents[$name]['table_name'];
-            $ref_table_name = '<?=$this->_namespace?>_Model_DbTable_' . $object_table_name;
+            $ref_table_name = '<?=$this->_namespace?>_Db_Table_' . $object_table_name;
             $rule = $name;
         } /* elseif ($rule = array_search($name, $parents)) {
         	// TODO: Do some unnice rules for table_class
@@ -217,10 +217,10 @@ abstract class <?=$this->_namespace?>_Model_Mapper_MapperAbstract
             }
         }
 
-        $obj = $row->$method('<?=$this->_namespace?>_Model_DbTable_' . $object_table_name, $rule);
+        $obj = $row->$method('<?=$this->_namespace?>_Db_Table_' . $object_table_name, $rule);
 
         if (! empty($obj)) {
-            $model_class = '<?=$this->_namespace?>_Model_' . $object_table_name;
+            $model_class = '<?=$this->_namespace?>_Db_Model_' . $object_table_name;
 
             if ($obj instanceof Zend_Db_Table_Rowset) {
                 if (method_exists($model, 'add' . $property)) {

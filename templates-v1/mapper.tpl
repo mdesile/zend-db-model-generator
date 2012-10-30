@@ -3,7 +3,7 @@
 /**
  * Application Model Mappers
  *
- * @package <?=$this->_namespace?>_Model
+ * @package <?=$this->_namespace?>
  * @subpackage Mapper
  * @author <?=$this->_author . "\n"?>
  * @copyright <?=$this->_copyright . "\n"?>
@@ -13,7 +13,7 @@
 
 /**
  * Table definition for this class
- * @see <?=$this->_namespace?>_Model_DbTable_<?=$this->_className."\n"?>
+ * @see <?=$this->_namespace?>_Db_Table_<?=$this->_className."\n"?>
  */
 require_once dirname(__FILE__) . '/../DbTable/<?=$this->_className?>.php';
 <?php endif ?>
@@ -21,11 +21,12 @@ require_once dirname(__FILE__) . '/../DbTable/<?=$this->_className?>.php';
 /**
  * Data Mapper implementation for <?=$this->_namespace?>_Model_<?=$this->_className."\n"?>
  *
- * @package <?=$this->_namespace?>_Model
+ * @package <?=$this->_namespace?>_Db
  * @subpackage Mapper
  * @author <?=$this->_author . "\n"?>
  */
-class <?=$this->_namespace?>_Model_Mapper_<?=$this->_className?> extends <?=$this->_includeMapper->getParentClass() . "\n"?>
+class <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Mapper_<?=$this->_className?> 
+    extends <?=$this->_includeMapper->getParentClass() . "\n"?>
 {
 <?php $vars = $this->_includeMapper->getVars();
 if (! empty($vars)) {
@@ -35,12 +36,12 @@ echo "\n$vars\n";
     /**
      * Returns an array, keys are the field names.
      *
-     * @param <?=$this->_namespace?>_Model_<?=$this->_className?> $model
+     * @param <?=$this->_namespace?>_<?=$this->_className?> $model
      * @return array
      */
     public function toArray($model)
     {
-        if (! $model instanceof <?=$this->_namespace?>_Model_<?=$this->_className?>) {
+        if (! $model instanceof <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?>) {
 <?php if (! empty($this->_loggerName)):?>
             if (is_object($model)) {
                 $message = get_class($model) . " is not a <?=$this->_namespace?>_Model_<?=$this->_className?> object in toArray for " . get_class($this);
@@ -67,12 +68,12 @@ foreach ($this->_columns as $column):
     /**
      * Returns the DbTable class associated with this mapper
      *
-     * @return <?=$this->_namespace?>_Model_DbTable_<?=$this->_className . "\n"?>
+     * @return <?=$this->_namespace?>_Db_Table_<?=$this->_className . "\n"?>
      */
     public function getDbTable()
     {
         if ($this->_dbTable === null) {
-            $this->setDbTable('<?=$this->_namespace?>_Model_DbTable_<?=$this->_className?>');
+            $this->setDbTable('<?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Table_<?=$this->_className?>');
         }
 
         return $this->_dbTable;
@@ -92,12 +93,12 @@ foreach ($this->_columns as $column):
      */
     public function delete($model, $useTransaction = true)
     {
-        if (! $model instanceof <?=$this->_namespace?>_Model_<?=$this->_className?>) {
+        if (! $model instanceof <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?>) {
 <?php if (! empty($this->_loggerName)):?>
             if (is_object($model)) {
-                $message = get_class($model) . " is not a <?=$this->_namespace?>_Model_<?=$this->_className?> object in delete for " . get_class($this);
+                $message = get_class($model) . " is not a <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?> object in delete for " . get_class($this);
             } else {
-                $message = "$model is not a <?=$this->_namespace?>_Model_<?=$this->_className?> object in delete for " . get_class($this);
+                $message = "$model is not a <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?> object in delete for " . get_class($this);
             }
 
             $this->_logger->log($message, Zend_Log::ERR);
@@ -189,9 +190,8 @@ foreach ($this->_columns as $column):
      * @param boolean $useTransaction Flag to indicate if save should be done inside a database transaction
      * @return boolean If the save action was successful
      */
-    public function save(<?=$this->_namespace?>_Model_<?=$this->_className?> $model,
-        $ignoreEmptyValues = true, $recursive = false, $useTransaction = true
-    ) {
+    public function save(<?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?> $model, $ignoreEmptyValues = true, $recursive = false, $useTransaction = true)
+    {
         $data = $model->toArray();
         if ($ignoreEmptyValues) {
             foreach ($data as $key => $value) {
@@ -389,7 +389,7 @@ foreach ($this->_columns as $column):
     public function loadModel($data, $entry)
     {
         if ($entry === null) {
-            $entry = new <?=$this->_namespace?>_Model_<?=$this->_className?>();
+            $entry = new <?=$this->_namespace?>_Db_<?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_')?>Model_<?=$this->_className?>();
         }
 
         if (is_array($data)) {

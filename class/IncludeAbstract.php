@@ -19,12 +19,12 @@ abstract class IncludeAbstract
 
     protected $_namespace;
 
-    public function __construct($namespace)
+    public function __construct($namespace, $schema=null)
     {
     	$this->_namespace = $namespace;
         $this->setVars();
         $this->setFunctions();
-        $this->setParentClass();
+        $this->setParentClass($schema);
     }
 
     public abstract function getType();
@@ -68,19 +68,20 @@ abstract class IncludeAbstract
      * class should still extend the default parent class to maintain
      * interoperability.
      */
-    public function setParentClass()
+    public function setParentClass($schema=null)
     {
     	$type = $this->getType();
-    	$class = $this->_namespace . '_Model_';
+    	$class = $this->_namespace . '_Db_'; //. '_Model_';
+    if(! is_null($schema) and $schema != ''){ $class .= ucfirst($schema) . '_'; }
     	switch ($type) {
     		case self::TYPE_MODEL:
-    			$class .= 'ModelAbstract';
+    			$class .= 'Model_Abstract';
     			break;
     		case self::TYPE_MAPPER:
-    			$class .= 'Mapper_MapperAbstract';
+    			$class .= 'Mapper_Abstract';
     			break;
     		case self::TYPE_DBTABLE:
-    			$class .= 'DbTable_TableAbstract';
+    			$class .= 'Table_Abstract';
     			break;
 
     		default:

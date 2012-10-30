@@ -3,7 +3,7 @@
 /**
  * Application Models
  *
- * @package <?=$this->_namespace?>_Model
+ * @package <?=$this->_namespace?>_Db
  * @subpackage Model
  * @author <?=$this->_author."\n"?>
  * @copyright <?=$this->_copyright."\n"?>
@@ -13,7 +13,7 @@
 
 /**
  * Data Mapper implementation for this class
- * @see <?=$this->_namespace?>_Model_Mapper_<?=$this->_className . "\n"?>
+ * @see <?=$this->_namespace?>_Db_Mapper_<?=$this->_className . "\n"?>
  */
 require_once dirname(__FILE__) . '/mappers/<?=$this->_className?>.php';
 
@@ -27,11 +27,12 @@ require_once 'ModelAbstract.php';
 /**
  * <?=$this->_classDesc."\n"?>
  *
- * @package <?=$this->_namespace?>_Model
- * @subpackage Model
+ * @package <?=$this->_namespace?>_Db
+ * @subpackage <?= ($this->getSchema() == ''? '': ucfirst($this->getSchema()) . '_') ?>Model
  * @author <?=$this->_author."\n"?>
  */
-class <?=$this->_namespace?>_Model_<?=$this->_className?> extends <?=$this->_includeModel->getParentClass() . "\n"?>
+class <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchema())) ?>_Model_<?=$this->_className?> 
+    extends <?=$this->_includeModel->getParentClass($this->getSchema()) . "\n"?>
 {
 
 <?php foreach ($this->_columns as $column): ?>
@@ -43,7 +44,7 @@ class <?=$this->_namespace?>_Model_<?=$this->_className?> extends <?=$this->_inc
      *
      * @var <?=$column['phptype'] . "\n"?>
      */
-    protected $_<?=$column['capital']?>;
+    protected $_<?=$column['var_capital']?>;
 
 <?php endforeach;?>
 
@@ -95,7 +96,7 @@ echo "$vars\n\n";
 
         $this->setDependentList(array(
 <?php foreach ($this->getDependentTables() as $key): ?>
-            '<?=$this->_getCapital($key['key_name'])?>' => array(
+            '<?= $this->_getCapital($key['key_name'])?>' => array(
                     'property' => '<?=$this->_getRelationName($key, 'dependent')?>',
                     'table_name' => '<?=$this->_getClassName($key['foreign_tbl_name'])?>',
                 ),
@@ -132,7 +133,7 @@ if (stripos($db, 'mssql') !== false || stripos($db, 'dblib') !== false || stripo
         }
 
 <?php endif; ?>
-        $this->_<?=$column['capital']?> = $data;
+        $this->_<?=$column['var_capital']?> = $data;
         return $this;
     }
 
@@ -150,24 +151,24 @@ if (stripos($db, 'mssql') !== false || stripos($db, 'dblib') !== false || stripo
     {
 <?php if (strpos($column['type'], 'datetime') !== false): ?>
         if ($returnZendDate) {
-            if ($this->_<?=$column['capital']?> === null) {
+            if ($this->_<?=$column['var_capital']?> === null) {
                 return null;
             }
 
 <?php
 $db = get_class($this);
 if (stripos($db, 'mssql') !== false || stripos($db, 'dblib') !== false || stripos($db, 'sqlsrv') !== false): ?>
-            return new Zend_Date($this->_<?=$column['capital']?>, 'YYYY-MM-ddTHH:mm:ss.S');
+            return new Zend_Date($this->_<?=$column['var_capital']?>, 'YYYY-MM-ddTHH:mm:ss.S');
 <?php else: ?>
-            return new Zend_Date($this->_<?=$column['capital']?>, Zend_Date::ISO_8601);
+            return new Zend_Date($this->_<?=$column['var_capital']?>, Zend_Date::ISO_8601);
 <?php endif; ?>
         }
 
-        return $this->_<?=$column['capital']?>;
+        return $this->_<?=$column['var_capital']?>;
 <?php elseif ($column['phptype'] == 'boolean'): ?>
-        return $this->_<?=$column['capital']?> ? true : false;
+        return $this->_<?=$column['var_capital']?> ? true : false;
 <?php else: ?>
-        return $this->_<?=$column['capital']?>;
+        return $this->_<?=$column['var_capital']?>;
 <?php endif; ?>
     }
 <?php endforeach; ?>
@@ -299,7 +300,7 @@ else : ?>
     public function getMapper()
     {
         if ($this->_mapper === null) {
-            $this->setMapper(new <?=$this->_namespace?>_Model_Mapper_<?=$this->_className?>());
+        $this->setMapper(new <?=$this->_namespace?>_Db<?= ($this->getSchema() == ''? '': '_' . ucfirst($this->getSchema())) ?>_Mapper_<?=$this->_className?>());
         }
 
         return $this->_mapper;

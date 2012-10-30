@@ -7,254 +7,289 @@ require_once('MakeDbTableAbstract.php');
  */
 abstract class MakeDbTable extends MakeDbTableAbstract {
 
-	/**
-	 *   @var Boolean $_addRequire;
-	 */
-	protected $_addRequire;
+    /**
+     *   @var Boolean $_addRequire;
+     */
+    protected $_addRequire;
 
-	
-	/**
-	 *   @var String $_includePath;
-	 */
-	protected $_includePath;
-	
-	
-	public function setIncludePath($path) {
-		$this->_includePath = $path;
-	}
-	
-	/**
-	 *
-	 * @return string
-	 */
-	public function getIncludePath() {
-		return $this->_includePath;
-	}
-	
-	
-	
-	/**
-	 *
-	 *  the class constructor
-	 *
-	 * @param Array $config
-	 * @param String $dbname
-	 * @param String $namespace
-	 */
-	function __construct($config,$dbname,$namespace) {
-		parent::__construct($config, $dbname,$namespace);
-		$this->_addRequire = $config['include.addrequire'];
-		$path = $this->_config['include.path'];
-		
-		
-		if ( ! is_dir($path)) {
-			// Use path relative to root of the application
-			$path = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $this->_config['include.path'];
-		}
-		
-		$this->setIncludePath($path . DIRECTORY_SEPARATOR);
-		
-		if (file_exists($this->getIncludePath() . 'IncludeDefault.php')) {
-			require_once $this->getIncludePath() . 'IncludeDefault.php';
-		} else {
-			require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'IncludeDefault.php';
-		}
-		
-	}
-	
+    /**
+     *   @var String $_includePath;
+     */
+    protected $_includePath;
 
-	/**
-	 * creates the DbTable class file
-	 */
-	function makeDbTableFile() {
+    public function setIncludePath($path) {
+        $this->_includePath = $path;
+    }
 
-		$class = 'DbTable_' . $this->_className;
-		$file = $this->getIncludePath() . $class . '.inc.php';
-		if (file_exists($file)) {
-			include_once $file;
-			$include = new $class($this->_namespace);
-			$this->_includeTable = $include;
-		} else {
-			$this->_includeTable = new DbTable_Default($this->_namespace);
-		}
+    /**
+     *
+     * @return string
+     */
+    public function getIncludePath() {
+        return $this->_includePath;
+    }
 
-		$referenceMap='';
-		$dbTableFile=$this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.$this->_className.'.php';
+    /**
+     *
+     *  the class constructor
+     *
+     * @param Array $config
+     * @param String $dbname
+     * @param String $namespace
+     */
+    function __construct($config, $dbname, $namespace) {
+        parent::__construct($config, $dbname, $namespace);
+        $this->_addRequire = $config['include.addrequire'];
+        $path = $this->_config['include.path'];
 
-		$foreignKeysInfo=$this->getForeignKeysInfo();
-		$references=array();
-		foreach ($foreignKeysInfo as $info) {
-			$refTableClass = $this->_namespace . '_Model_DbTable_' . $this->_getClassName($info['foreign_tbl_name']);
-			$key = $this->_getCapital($info['key_name']);
-			if (is_array($info['column_name'])) {
-			    $columns = 'array(\'' . implode("', '", $info['column_name']) . '\')';
-			} else {
-			    $columns = "'" . $info['column_name'] . "'";
-			}
-			if (is_array($info['foreign_tbl_column_name'])) {
-			    $refColumns = 'array(\'' . implode("', '", $info['foreign_tbl_column_name']) . '\')';
-			} else {
-			    $refColumns = "'" . $info['foreign_tbl_column_name'] . "'";
-			}
 
-			$references[]="
-        '$key' => array(
-          	'columns' => {$columns},
+        if (!is_dir($path)) {
+            // Use path relative to root of the application
+            $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . $this->_config['include.path'];
+        }
+
+        $this->setIncludePath($path . DIRECTORY_SEPARATOR);
+
+        if (file_exists($this->getIncludePath() . 'IncludeDefault.php')) {
+            require_once $this->getIncludePath() . 'IncludeDefault.php';
+        } else {
+            require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'IncludeDefault.php';
+        }
+    }
+
+    /**
+     * creates the DbTable class file
+     */
+    function makeDbTableFile() {
+
+        $class = 'DbTable_' . $this->_className;
+        $file = $this->getIncludePath() . $class . '.inc.php';
+        if (file_exists($file)) {
+            include_once $file;
+            $include = new $class($this->_namespace);
+            $this->_includeTable = $include;
+        } else {
+            $this->_includeTable = new DbTable_Default($this->_namespace, $this->getSchema());
+        }
+
+        $referenceMap = '';
+        $directory = $this->getLocation() . 
+                DIRECTORY_SEPARATOR . $this->_namespace .
+                DIRECTORY_SEPARATOR . 'Db' . 
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                DIRECTORY_SEPARATOR . 'Table';
+        @mkdir($directory, 0755, true);
+        $dbTableFile = $directory . 
+                DIRECTORY_SEPARATOR . $this->_className . '.php';
+
+        $foreignKeysInfo = $this->getForeignKeysInfo();
+        $references = array();
+        foreach ($foreignKeysInfo as $info) {
+            $refTableClass = $this->_namespace . 
+                    '_Db_' .
+                    ($this->getSchema() != ''? ucfirst($this->getSchema()) . '_': '') . 
+                    'Table_' . 
+                    $this->_getClassName($info['foreign_tbl_name']);
+            $key = $this->_getCapital($info['key_name']);
+            if (is_array($info['column_name'])) {
+                $columns = 'array(\'' . implode("', '", $info['column_name']) . '\')';
+            } else {
+                $columns = "'" . $info['column_name'] . "'";
+            }
+            if (is_array($info['foreign_tbl_column_name'])) {
+                $refColumns = 'array(\'' . implode("', '", $info['foreign_tbl_column_name']) . '\')';
+            } else {
+                $refColumns = "'" . $info['foreign_tbl_column_name'] . "'";
+            }
+
+            $references[] = "'$key' => array(
+            'columns' => {$columns},
             'refTableClass' => '{$refTableClass}',
             'refColumns' => {$refColumns}
         )";
-		}
+        }
 
-		if (sizeof($references)>0) {
-			$referenceMap="protected \$_referenceMap = array(".
-			join(',',$references). "\n    );";
-		}
+        if (sizeof($references) > 0) {
+            $referenceMap = "protected \$_referenceMap = array(" .
+                    join(',', $references) . "\n    );";
+        }
 
-		$dependentTables = '';
-		$dependents = array();
-		foreach ($this->getDependentTables() as $info) {
-			$dependents[] = $this->_getClassName($info['foreign_tbl_name']);
-		}
+        $dependentTables = '';
+        $dependents = array();
+        foreach ($this->getDependentTables() as $info) {
+            $dependents[] = $this->_getClassName($info['foreign_tbl_name']);
+        }
 
-		if (sizeof($dependents) > 0) {
-			$dependentTables = "protected \$_dependentTables = array(\n        '".
-			join("',\n        '",$dependents). "'\n    );";
-		}
+        if (sizeof($dependents) > 0) {
+            $dependentTables = "protected \$_dependentTables = array(\n        '" .
+                    join("',\n        '", $dependents) . "'\n    );";
+        }
 
-		$vars = array('referenceMap' => $referenceMap, 'dependentTables' => $dependentTables);
+        $vars = array('referenceMap' => $referenceMap, 'dependentTables' => $dependentTables);
 
-		$dbTableData=$this->getParsedTplContents('dbtable.tpl', 1,$vars);
+        $dbTableData = $this->getParsedTplContents('dbtable.tpl', 1, $vars);
 
-		if (!file_put_contents($dbTableFile,$dbTableData))
-			die("Error: could not write db table file $dbTableFile.");
+        if (!file_put_contents($dbTableFile, $dbTableData))
+            die("Error: could not write db table file $dbTableFile.");
+    }
 
-	}
+    /**
+     * creates the Mapper class file
+     */
+    function makeMapperFile() {
 
-	/**
-	 * creates the Mapper class file
-	 */
-	function makeMapperFile() {
+        $class = 'Mapper_' . $this->_className;
+        $file = $this->getIncludePath() . $class . '.inc.php';
+        if (file_exists($file)) {
+            include_once $file;
+            $include = new $class($this->_namespace);
+            $this->_includeMapper = $include;
+        } else {
+            $this->_includeMapper = new Mapper_Default($this->_namespace, $this->getSchema());
+        }
 
-		$class = 'Mapper_' . $this->_className;
-		$file = $this->getIncludePath() . $class . '.inc.php';
-		if (file_exists($file)) {
-			include_once $file;
-			$include = new $class($this->_namespace);
-			$this->_includeMapper = $include;
-		} else {
-			$this->_includeMapper = new Mapper_Default($this->_namespace);
-		}
+        $directory = $this->getLocation() . 
+                DIRECTORY_SEPARATOR . $this->_namespace .
+                DIRECTORY_SEPARATOR . 'Db' . 
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                DIRECTORY_SEPARATOR . 'Mapper';
+        @mkdir($directory, 0755, true);
+        $mapperFile = $directory . 
+                DIRECTORY_SEPARATOR . $this->_className . '.php';
 
-		$mapperFile=$this->getLocation().DIRECTORY_SEPARATOR.'mappers'.DIRECTORY_SEPARATOR.$this->_className.'.php';
+        $mapperData = $this->getParsedTplContents('mapper.tpl', 1);
 
-		$mapperData=$this->getParsedTplContents('mapper.tpl',1);
+        if (!file_put_contents($mapperFile, $mapperData)) {
+            die("Error: could not write mapper file $mapperFile.");
+        }
+    }
 
-		if (!file_put_contents($mapperFile,$mapperData)) {
-			die("Error: could not write mapper file $mapperFile.");
-		}
-	}
+    /**
+     * creates the model class file
+     */
+    function makeModelFile() {
 
-	/**
-	 * creates the model class file
-	 */
-	function makeModelFile() {
+        $class = 'Model_' . $this->_className;
+        $file = $this->getIncludePath() . $class . '.inc.php';
+        if (file_exists($file)) {
+            include_once $file;
+            $include = new $class($this->_namespace);
+            $this->_includeModel = $include;
+        } else {
+            $this->_includeModel = new Model_Default($this->_namespace, $this->getSchema());
+        }
 
-		$class = 'Model_' . $this->_className;
-		$file = $this->getIncludePath() . $class . '.inc.php';
-		if (file_exists($file)) {
-			include_once $file;
-			$include = new $class($this->_namespace);
-			$this->_includeModel = $include;
-		} else {
-			$this->_includeModel = new Model_Default($this->_namespace);
-		}
+        $directory = $this->getLocation() . 
+                DIRECTORY_SEPARATOR . $this->_namespace .
+                DIRECTORY_SEPARATOR . 'Db' . 
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                DIRECTORY_SEPARATOR . 'Model';
+        @mkdir($directory, 0755, true);
+        $modelFile = $directory . 
+                DIRECTORY_SEPARATOR . $this->_className . '.php';
 
-		$modelFile=$this->getLocation().DIRECTORY_SEPARATOR.$this->_className.'.php';
+        $modelData = $this->getParsedTplContents('model.tpl', 1);
 
-		$modelData=$this->getParsedTplContents('model.tpl',1);
+        if (!file_put_contents($modelFile, $modelData)) {
+            die("Error: could not write model file $modelFile.");
+        }
+    }
 
-		if (!file_put_contents($modelFile,$modelData)) {
-			die("Error: could not write model file $modelFile.");
-		}
-	}
+    /**
+     *
+     * creates all class files
+     *
+     * @return Boolean
+     */
+    function doItAll() {
 
-	/**
-	 *
-	 * creates all class files
-	 *
-	 * @return Boolean
-	 */
-	function doItAll() {
+        $this->makeDbTableFile();
+        $this->makeMapperFile();
+        $this->makeModelFile();
 
-		$this->makeDbTableFile();
-		$this->makeMapperFile();
-		$this->makeModelFile();
+        /* Model Abstract */
+        $modelFile = $this->getLocation() . 
+                DIRECTORY_SEPARATOR . $this->_namespace .
+                DIRECTORY_SEPARATOR . 'Db' . 
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                DIRECTORY_SEPARATOR . 'Model' . 
+                DIRECTORY_SEPARATOR . 'Abstract.php';
+        $modelData = $this->getParsedTplContents('model_class.tpl', 1);
 
-		$modelFile=$this->getLocation().DIRECTORY_SEPARATOR.'ModelAbstract.php';
-		$modelData=$this->getParsedTplContents('model_class.tpl',1);
+        if (!file_put_contents($modelFile, $modelData))
+            die("Error: could not write model file $modelFile.");
 
-		if (!file_put_contents($modelFile, $modelData))
-			die("Error: could not write model file $modelFile.");
+        /*
+        $paginatorFile = $this->getLocation() . DIRECTORY_SEPARATOR . 'Paginator.php';
+        $paginatorData = $this->getParsedTplContents('paginator_class.tpl', 1);
 
-		$paginatorFile=$this->getLocation().DIRECTORY_SEPARATOR.'Paginator.php';
-		$paginatorData=$this->getParsedTplContents('paginator_class.tpl',1);
+        if (!file_put_contents($paginatorFile, $paginatorData))
+            die("Error: could not write model file $paginatorFile.");
+        */
+        
+        /* Mapper Abstract */
+        $mapperFile = $this->getLocation() . 
+                DIRECTORY_SEPARATOR . $this->_namespace .
+                DIRECTORY_SEPARATOR . 'Db' . 
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                DIRECTORY_SEPARATOR . 'Mapper' . 
+                DIRECTORY_SEPARATOR . 'Abstract.php';
+        $mapperData = $this->getParsedTplContents('mapper_class.tpl', 1);
 
-		if (!file_put_contents($paginatorFile, $paginatorData))
-			die("Error: could not write model file $paginatorFile.");
+        if (!file_put_contents($mapperFile, $mapperData))
+            die("Error: could not write mapper file $mapperFile.");
 
-		$mapperFile=$this->getLocation().DIRECTORY_SEPARATOR.'mappers'.DIRECTORY_SEPARATOR.'MapperAbstract.php';
-		$mapperData=$this->getParsedTplContents('mapper_class.tpl',1);
+        /* Table Abstract */
+        $tableFile = $this->getLocation() . 
+                DIRECTORY_SEPARATOR . $this->_namespace .
+                DIRECTORY_SEPARATOR . 'Db' . 
+                ($this->getSchema() != '' ? DIRECTORY_SEPARATOR . ucfirst($this->getSchema()): '') .
+                DIRECTORY_SEPARATOR . 'Table' . 
+                DIRECTORY_SEPARATOR . 'Abstract.php';
+        $tableData = $this->getParsedTplContents('dbtable_class.tpl', 1);
 
-		if (!file_put_contents($mapperFile, $mapperData))
-			die("Error: could not write mapper file $mapperFile.");
+        if (!file_put_contents($tableFile, $tableData))
+            die("Error: could not write model file $tableFile.");
 
-		$tableFile=$this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.'TableAbstract.php';
-		$tableData=$this->getParsedTplContents('dbtable_class.tpl',1);
+        // Copy all files in include paths
+        if (is_dir($this->getIncludePath() . 'model')) {
+            $this->copyIncludeFiles($this->getIncludePath() . 'model', $this->getLocation());
+        }
 
-		if (!file_put_contents($tableFile, $tableData))
-			die("Error: could not write model file $tableFile.");
+        if (is_dir($this->getIncludePath() . 'mapper')) {
+            $this->copyIncludeFiles($this->getIncludePath() . 'mapper', $this->getLocation() . 'mappers');
+        }
 
-		// Copy all files in include paths
-		if (is_dir($this->getIncludePath() . 'model')) {
-			$this->copyIncludeFiles($this->getIncludePath() . 'model', $this->getLocation());
-		}
+        if (is_dir($this->getIncludePath() . 'dbtable')) {
+            $this->copyIncludeFiles($this->getIncludePath() . 'dbtable', $this->getLocation() . 'DbTable');
+        }
 
-		if (is_dir($this->getIncludePath() . 'mapper')) {
-			$this->copyIncludeFiles($this->getIncludePath() . 'mapper', $this->getLocation() . 'mappers');
-		}
+        /* 		$templatesDir=realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'templates').DIRECTORY_SEPARATOR;
 
-		if (is_dir($this->getIncludePath() . 'dbtable')) {
-			$this->copyIncludeFiles($this->getIncludePath() . 'dbtable', $this->getLocation() . 'DbTable');
-		}
+          if (!file_put_contents($modelFile,$modelData))
+          die("Error: could not write model file $modelFile.");
 
-/*		$templatesDir=realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'templates').DIRECTORY_SEPARATOR;
+          if (!copy($templatesDir.'model_class.tpl',$this->getLocation().DIRECTORY_SEPARATOR.'MainModel.php'))
+          die("could not copy model_class.tpl as MainModel.php");
+          if (!copy($templatesDir.'dbtable_class.tpl',$this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.'MainDbTable.php'))
+          die("could not copy dbtable_class.php as MainDbTable.php");
+         */
+        return true;
+    }
 
-		if (!file_put_contents($modelFile,$modelData))
-			die("Error: could not write model file $modelFile.");
+    protected function copyIncludeFiles($dir, $dest) {
+        $files = array();
+        $directory = opendir($dir);
 
-		if (!copy($templatesDir.'model_class.tpl',$this->getLocation().DIRECTORY_SEPARATOR.'MainModel.php'))
-			die("could not copy model_class.tpl as MainModel.php");
-		if (!copy($templatesDir.'dbtable_class.tpl',$this->getLocation().DIRECTORY_SEPARATOR.'DbTable'.DIRECTORY_SEPARATOR.'MainDbTable.php'))
-			die("could not copy dbtable_class.php as MainDbTable.php");
-*/
-		return true;
+        while ($item = readdir($directory)) {
+            // Ignore hidden files ('.' as first character)
+            if (preg_match('/^\./', $item)) {
+                continue;
+            }
 
-	}
-
-	protected function copyIncludeFiles($dir, $dest)
-	{
-	    $files = array();
-	    $directory = opendir($dir);
-
-	    while ($item = readdir($directory)){
-		    // Ignore hidden files ('.' as first character)
-	    	if (preg_match('/^\./', $item)) {
-	        	continue;
-	        }
-
-	        copy($dir . DIRECTORY_SEPARATOR . $item, $dest . DIRECTORY_SEPARATOR . $item);
-	    }
-	    closedir($directory);
-	}
+            copy($dir . DIRECTORY_SEPARATOR . $item, $dest . DIRECTORY_SEPARATOR . $item);
+        }
+        closedir($directory);
+    }
 
 }

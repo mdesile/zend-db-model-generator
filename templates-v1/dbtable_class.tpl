@@ -24,7 +24,7 @@ require_once 'Zend<?=DIRECTORY_SEPARATOR?>Db<?=DIRECTORY_SEPARATOR?>Table<?=DIRE
  * @subpackage DbTable
  * @author <?=$this->_author."\n"?>
  */
-abstract class <?=$this->_namespace?>_Model_DbTable_TableAbstract extends Zend_Db_Table_Abstract
+abstract class <?=$this->_namespace?>_Db_Table_Abstract extends Zend_Db_Table_Abstract
 {
     /**
      * $_name - Name of database table

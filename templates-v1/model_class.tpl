@@ -17,12 +17,12 @@
  * @subpackage Model
  * @author <?=$this->_author."\n"?>
  */
-abstract class <?=$this->_namespace?>_Model_ModelAbstract
+abstract class <?=$this->_namespace?>_Db_Model_Abstract
 {
     /**
      * Mapper associated with this model instance
      *
-     * @var <?=$this->_namespace?>_Model_ModelAbstract
+     * @var <?=$this->_namespace?>_Db_Mapper_Abstract
      */
     protected $_mapper;
 
@@ -413,135 +413,4 @@ abstract class <?=$this->_namespace?>_Model_ModelAbstract
     public function getTableName() {
         return $this->getMapper()->getDbTable()->getTableName();
     }
-
-    /**
-     * Compare 2 objects and returns the values that differ
-     *
-     * @param <?=$this->_namespace?>_Model_ModelAbstract $model Object to be compared to
-     * @param boolean $ignorePrimaryKey If primary keys should be considered
-     * @param boolean $relations If should recurse into dependencies and parents
-     * @param boolean $load If relations should be loaded if they are not already
-     * @return array The values that differ between the two objects, or is in the
-     *     			first that is not in the other
-     */
-/*    public function diff(<?=$this->_namespace?>_Model_ModelAbstract $model,
-     $ignorePrimaryKey = true, $relations = false, $load = true
-    ) {
-        $other_values = $model->toArray();
-        if ($ignorePrimaryKey) {
-        	$other_pk = $model->getPrimaryKeyName();
-        	if (is_array($other_pk)) {
-        		foreach ($other_pk as $key) {
-        			unset($other_values[$key]);
-        		}
-        	} else {
-        		unset($other_values[$other_pk]);
-        	}
-        }
-
-        $values = $this->toArray();
-        if ($ignorePrimaryKey) {
-        	$pk = $this->getPrimaryKeyName();
-        	if (is_array($pk)) {
-        		foreach ($pk as $key) {
-        			unset($values[$key]);
-        		}
-        	} else {
-        		unset($values[$pk]);
-        	}
-        }
-
-        $result = array_diff_assoc($values, $other_values);
-
-        if ($relations) {
-        	$all_relations = array_merge($this->getDependentList(), $this->getParentList());
-        	foreach($all_relations as $key => $property) {
-        		$method = 'get' . ucfirst($property);
-
-        		$value = $this->$method($load);
-        		if (is_null($value)) {
-        			continue;
-        		} elseif ($value instanceof <?=$this->_namespace?>_Model_ModelAbstract)  {
-        			$pk = $value->getPrimaryKeyName();
-        			$value = $value->toArray();
-        			if ($ignorePrimaryKey) {
-    			    	if (is_array($pk)) {
-    			    		foreach ($pk as $key) {
-    			    			unset($value[$key]);
-    			    		}
-    			    	} else {
-    			    		unset($value[$pk]);
-    			    	}
-        			}
-        		} elseif (is_array($value)) {
-        			$array = array();
-        			foreach ($value as $val) {
-        				if ($val instanceof <?=$this->_namespace?>_Model_ModelAbstract) {
-    	    				$pk = $val->getPrimaryKeyName();
-        					$val = $val->toArray();
-        					if ($ignorePrimaryKey) {
-    					    	if (is_array($pk)) {
-    					    		foreach ($pk as $key) {
-    					    			unset($val[$key]);
-    					    		}
-    					    	} else {
-    					    		unset($val[$pk]);
-    					    	}
-        					}
-    				    	$array[] = $val;
-        				}
-        			}
-        			$value = $array;
-        		}
-
-        		if (method_exists($model, $method)) {
-        			$other_value = $model->$method($load);
-        			if (is_null($other_value)) {
-        				$other_value = array();
-        			} elseif ($other_value instanceof <?=$this->_namespace?>_Model_ModelAbstract) {
-    	    			$pk = $other_value->getPrimaryKeyName();
-        				$other_value = $other_value->toArray();
-        				if ($ignorePrimaryKey) {
-    				    	if (is_array($pk)) {
-    				    		foreach ($pk as $key) {
-    				    			unset($other_value[$key]);
-    				    		}
-    				    	} else {
-    				    		unset($value[$pk]);
-    				    	}
-        				}
-        			} elseif (is_array($other_value)) {
-        				$other_array = array();
-        				foreach ($other_value as $val) {
-        					if ($val instanceof <?=$this->_namespace?>_Model_ModelAbstract) {
-        						$pk = $val->getPrimaryKeyName();
-        						$val = $val->toArray();
-    		    				if ($ignorePrimaryKey) {
-    						    	if (is_array($pk)) {
-    						    		foreach ($pk as $key) {
-    						    			unset($val[$key]);
-    						    		}
-    						    	} else {
-    						    		unset($val[$pk]);
-    						    	}
-    		    				}
-    					    	$other_array[] = $val;
-        					}
-        				}
-        				$other_value = $other_array;
-        			}
-        		} else {
-        			$other_value = array();
-        		}
-
-        		$diff = array_diff_assoc($value, $other_value);
-        		if (! empty($diff)) {
-        			$result[$property] = $diff;
-        		}
-        	}
-        }
-
-        return $result;
-    }
-    */
 }
